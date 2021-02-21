@@ -1,0 +1,219 @@
+<style>
+  .place_link:hover{
+    opacity: 0.8;
+    text-decoration: underline purple;
+  }
+  .place_link{
+   z-index: 3;
+   position: absolute; 
+   display: block;
+   vertical-align: middle;
+   text-align: center;
+   width: 150px;
+   height: 100px;
+   margin: 0px;
+   padding: 0px;
+  }
+</style>
+
+<% content_for :head do %>
+
+  <title><%= @category.admin_name %>, Каталог, Зоомагазин JollyTail</title>
+  <meta property="og:title" content="<%= params[:brand] ? (@category.admin_name + " " + params[:brand]) : @category.admin_name %> купить с доставкой в зоомагазине JollyTail"/>
+  <meta property="og:description" content="<%= params[:brand] ? (@category.admin_name + " " + params[:brand]) : @category.admin_name %> купить с доставкой в зоомагазине JollyTail"/>
+  <meta property="og:image" content="<%= @category.image.attached? ? ("https://jollytail.ru/image_cat_sender?id="+@category.id.to_s) : "https://jollytail.ru/assets/sq_logo-a9833f5f5aa36588b662698425cc597149affbda6cb6f6b9b3338c97afbdcc5d.png"%>"/>
+  <meta name="title" content="<%= params[:brand] ? (@category.admin_name + " " + params[:brand]) : @category.admin_name %>, Каталог, Зоомагазин JollyTail"/>
+  <meta name="description" content="<%= @category.text_2 != '' ? strip_tags(@category.text_2) : @category.admin_name%>"/>
+  <meta name="keywords" content="<%= params[:brand] ? (@category.admin_name + " " + params[:brand]) : @category.admin_name %> купить в зоомагазине JollyTail"/>
+<% end %>
+
+
+
+<% if ((@category.subtree_ids.size == 1) && (@category.image.attached?)) %>
+<div style="width: 100%; text-align: center; display: none;">
+    <div style="display: inline-block; width: 1050px; height: 390px; text-align: left; padding: 0px; margin: 0px; position: relative;  vertical-align: middle;">
+        <%= content_tag(:div, link_to( image_tag(@category.image, size: "390x260"), (@category.parent ? category_path(@category.parent) : root_path) ), :class => "place_link", :style => "position: absolute; top: 0px; left: 0px; border: 0.05px solid purple;  width: 390px; height: 260px; margin: 0px; padding: 0px;") %>
+        <%= content_tag(:div, link_to(@category.name, @category.parent ? category_path(@category.parent) : root_path), :class => "place_link", :style => "font-size: 24px; color: green; width: 390px; height: 30px; top: 260px; left: 0px;") %>
+    </div>
+</div>
+<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-2">
+        <%= render partial: "shared/tree", :locals => {cat: @category.id} %>
+    </div>
+    
+    
+      
+        
+
+    <div itemscope itemtype="http://schema.org/ItemList" class="col-md-10">
+       <h2 style="margin-bottom: 0px;"><% if @category.parent_id %>
+
+              <% if Category.find(@category.parent_id).parent_id %>
+                  <span style="color: Blue; text-decoration: underline;"> <%= link_to Category.find(Category.find(@category.parent_id).parent_id).name, category_path(Category.find(Category.find(@category.parent_id).parent_id)) %> </span>
+                  <span style="color: Purple;"> / </span>
+                  <span style="color: Blue; text-decoration: underline;"> <%= link_to Category.find(@category.parent_id).name, category_path(Category.find(@category.parent_id)) %> </span>
+                  <span style="color: Purple;"> / </span>
+                  <span style="color: Blue;"> <%= @category.name %> </span>
+              <% else %>
+                  <span style="color: Blue; text-decoration: underline;"> <%= link_to Category.find(@category.parent_id).name, category_path(Category.find(@category.parent_id)) %> </span>
+                  <span style="color: Purple;"> / </span>
+                  <span style="color: Blue;"> <%= @category.name %> </span>
+              <% end %>
+
+          <% else %>
+            <span style="color: Blue;"><%= @category.name %></span>
+          <% end %>
+          <span itemprop="name" style="display: none; color: Blue;"> <%= @category.admin_name %> </span>
+      </h2>
+      <h2 style="display:none; margin-bottom: 0px;"><% if @category.parent_id %>
+
+              <% if Category.find(@category.parent_id).parent_id %>
+                  <span id="first_cat_name" style="color: Blue; text-decoration: underline;"> <%= Category.find(Category.find(@category.parent_id).parent_id).id.to_s + Russian.translit(Category.find(Category.find(@category.parent_id).parent_id).name.to_s).parameterize %> </span>
+                  <span style="color: Purple;"> / </span>
+                  <span id="prev_cat_name" style="color: Blue; text-decoration: underline;"> <%= Category.find(@category.parent_id).id.to_s + Russian.translit(Category.find(@category.parent_id).name.to_s).parameterize %> </span>
+                  <span style="color: Purple;"> / </span>
+                  <span id="current_cat_name" style="color: Blue;"> <%= @category.id.to_s + Russian.translit(@category.name.to_s).parameterize %> </span>
+              <% else %>
+                  <span id="prev_cat_name" style="color: Blue; text-decoration: underline;"> <%= Category.find(@category.parent_id).id.to_s + Russian.translit(Category.find(@category.parent_id).name.to_s).parameterize %> </span>
+                  <span style="color: Purple;"> / </span>
+                  <span id="current_cat_name" style="color: Blue;"> <%= @category.id.to_s + Russian.translit(@category.name.to_s).parameterize %> </span>
+              <% end %>
+
+          <% else %>
+            <span id="current_cat_name" style="color: Blue;"><%= @category.id.to_s + Russian.translit(@category.name.to_s).parameterize %></span>
+          <% end %>
+      </h2>
+
+<div class="utility" style="position: relative; font-size: 12px; height: 20px; display: inline-block;">          
+    
+    <div class="filter_list">
+        <div class="dropdown">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Бренд: <%= params[:brand] ? params[:brand] : ' - ' %>
+            </button>
+            <div class="dropdown-menu" x-placement="bottom-start">
+                <% @all_flags = [] %>
+                <% Category.where(id: @category.subtree_ids).each do |current_category| %>
+                    <% if current_category.flags %>
+                        <% @all_flags += current_category.flags.split(';') %>
+                    <% end %>
+                <% end %>
+                <% @all_flags = @all_flags.uniq.sort %>
+                <% @all_flags.each do |brand| %>
+                    <%= link_to brand, category_path(@category, :sort => params[:sort], :brand => brand), class: "dropdown-item" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+        
+    
+             
+      <hr style="color: Purple;">
+      <div class="product_list_holder" style="display: table">
+<a id="start" name="start"></a>
+        <div style="display: table-row">
+        <div style="display: table-cell">
+        <% @products.each do |prod| %>
+            <% if prod.real == true %>
+                <%= render "shared/productonce", e: prod %>
+            <% end %>
+        <% end %>
+        </div>
+        </div>
+        
+        <div style="display: table-row">
+        <div style="display: table-cell">
+        <hr>
+        
+        <ul class="pagination">
+        
+            <% if @max_page_number > 1 %>
+                <% if @page_number == 1 %>
+                    <li class="page-item active"> <%= link_to "1", category_path(@category, :page_number => 1, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %> </li>
+                    <li class="page-item"><%= link_to " > ", category_path(@category, :page_number => @page_number+1, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+                <% else %>
+                    <% if @page_number == @max_page_number %>
+                        <li class="page-item"><%= link_to "<", category_path(@category, :page_number => @page_number-1, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+                        <li class="page-item active"><%= link_to @page_number, category_path(@category, :page_number => @max_page_number, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+                    <% else %>
+                        <li class="page-item"><%= link_to "<", category_path(@category, :page_number => @page_number-1, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+                        <li class="page-item active"><%= link_to @page_number, category_path(@category, :page_number => @max_page_number, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+                        <li class="page-item"><%= link_to ">", category_path(@category, :page_number => @page_number+1, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <li class="page-item active"><%= link_to "1", category_path(@category, :page_number => 1, :sort => params[:sort], :brand => params[:brand]), class: "page-link" %></li>
+            <% end %>
+        </ul>
+        
+        </div>
+        </div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="jumbotron">
+    <% if Brand.exists?(name: params[:brand]) %>
+        <% @a = Brand.where(name: params[:brand]).first %>
+        <%= @a.text ? @a.text.html_safe : @category.text_2.html_safe %>
+    <% else %>
+        <%= @category.text_2.html_safe %>
+    <% end %>
+</div>
+
+
+<script>
+  $(".sort_list_price_pointer").click(function() {
+        $(".sort_list_price").slideToggle();
+    });
+  $(".filter_list_brand_pointer").click(function() {
+        $(".filter_list_brand").slideToggle();
+    });
+
+  $('.speed_order_confirm').click(function() {
+      $(".speed_order").hide();
+      });
+      
+  $('.speed_order_close').click(function() {
+      $i = this.id;
+      $("#"+$i).filter(".speed_order").delay(100).slideToggle();
+      });
+      
+  $('.speed_order_open').click(function() {
+      $i = this.id;
+      $("#"+$i).filter(".speed_order").delay(100).slideToggle();
+      });
+      
+    $('.plus').click(function() {
+      $current_class = this.classList[3];
+      $counter = $(".counter."+$current_class);
+      var $current_value = $counter.val();
+      $current_value++;
+      $counter.val( $current_value);
+      $("input.counter."+$current_class).attr("value", $current_value)
+      $(".product_count_placer_view."+$current_class).html($counter.val())
+    });
+    
+    $('.minus').click(function() {
+      $current_class = this.classList[3];
+      $counter = $(".counter."+$current_class);
+      var $current_value = $counter.val();
+      $current_value--;
+      if($current_value > 0) {
+        $counter.val($current_value);
+        $("input.counter."+$current_class).attr("value", $current_value)
+        $(".product_count_placer_view."+$current_class).html($counter.val())
+      }
+    });
+      
+</script>

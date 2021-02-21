@@ -1,0 +1,25 @@
+<% content_for :head do %>
+  <title>Оставьте заявку</title>
+  <meta name="description" content="<%= Product.find(params[:pr_id]).name %>">
+<% end %>
+
+<h1 style="margin: 20px; color: Purple;">Форма заявки</h1>
+<h2 style="margin: 20px; color: Green;"><%= Product.find(params[:pr_id]).name %></h2>
+<%= image_tag Product.find(params[:pr_id]).images[0], style: 'margin-left: 20px; width: 100px; height: 100px; border: solid 1px Purple;' %>
+<%= form_for Uncountorder.new do |f|%>
+<%= hidden_field_tag :pr_id, "#{params[:pr_id]}", class: "pr_id" %>
+<span style="font-size: 14px; margin-left: 20px; font-weight: bold;">Укажите необходимое вам количество:</span><br>
+<%= text_field_tag :count, nil, class: "count", style: 'margin: 20px; width: 250px;' %><br>
+<span style="font-size: 14px; margin-left: 20px; font-weight: bold;">Укажите телефон, по которому мы сможем с вами связаться:</span><br>
+<%= text_field_tag :contact, nil, class: "contact", style: 'margin: 20px; width: 250px;' %><br>
+<%= submit_tag "Оставить заявку", class: "btn btn-success", disabled: true  %>
+<% end %>
+
+<script>
+$('input').on({ change: function() {
+                                    var $c1_nonempty = $('.count').val() != ""
+                                    var $c2_nonempty = $('.contact').val() != ""
+                                    if ( $c1_nonempty && $c2_nonempty )  { $(':submit').prop('disabled', false); }
+                                    }
+              });
+</script>

@@ -1,0 +1,2 @@
+class Uncountorder < ApplicationRecord
+end

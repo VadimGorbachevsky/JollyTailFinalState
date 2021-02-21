@@ -1,0 +1,105 @@
+      .logo1 {
+        font-family: Bell MT, serif;
+        font-size: 6vw;
+        margin-top: 0px;
+        vertical-align: top;
+        color: Blue;
+        font-weight: bold;
+      }
+      .logo2 {
+        font-family: Bell MT, serif;
+        font-size: 6vw;
+        margin-top: 0px;
+        vertical-align: top;
+        color: #00ff00;
+        font-weight: bold;
+      }
+      hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 2px solid Green;
+        /*margin: 1em 0;*/
+        padding: 0;
+      }
+      .mainhead {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.7vw;
+        margin: 0px;
+      }
+      a {
+        text-decoration: none !important;
+        color: inherit !important; /* Отменяем подчеркивание у ссылки */
+      }
+      .user_menu_head {
+        color: Green;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.4vw;
+        vertical-align: top;
+        text-align: left;
+        width: 100%
+      }
+      .start_user_menu {
+        color: Green;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        vertical-align: top;
+        text-align: left;
+        width: 100%
+      }
+      .user_menu_body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: Blue;
+        font-size: 12px;
+        vertical-align: top;
+        text-align: left;
+        margin: 0px;
+        width: 100%
+      }
+      .adress_table {
+        display: table-cell;
+        text-align: left;
+        font-size: 0.8vw;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        vertical-align: top;
+      }
+      .divider{
+        display: table-cell;
+        width: 1vw;
+      }
+      .long_divider{
+        display: table-cell;
+        width: 5vw;
+      }
+      .credo{
+        font-family: Bell MT, serif;
+        position: absolute;
+        margin-top: 6.5vw;
+        margin-left: 23vw;
+        font-weight: bold;
+        font-style: oblique;
+        font-size: 1.5vw;
+        color: Blue;
+      }
+      .bg-purple {
+       background: #DD80CC;
+      }
+      img{
+        margin-top: 0px;
+      }
+      #page-container {
+        position: relative;
+        min-height: 100vh;
+      }
+      #content-wrap {
+        padding-bottom: 10rem;    /* Footer height */
+        }
+      .cat_point {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .sub {
+        font-size: 24px;
+        cursor: pointer;
+      }

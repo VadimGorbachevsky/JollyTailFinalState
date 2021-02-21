@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Заказ №<%= @order.id %></h1><br>
+    <h2>Пользователь: <%= @user.name %>.</h2><br>
+    <h2>email: <%= @user.email %>.</h2><br>
+    <% @all_price = 0 %>
+    <h2>Позиции: </h2><br>
+    <table>
+      <tr>
+          <th>Наименование</th>
+          <th>Количество</th>
+          <th>Цена</th>
+          <th>Сумма</th>
+      </tr>
+      <% @order.positions.each do |current_position| %>
+      <tr>
+        <th><%= current_position.product.name %></th>
+        <th><%= current_position.quantity %></th>
+        <th><%= @pr = ((current_position.product.accia_id == 1) || (Accia.find(current_position.product.accia_id).endtime > Time.now() == 1) ) ? current_position.product.price : current_position.product.action_price %></th>
+        <% @all_price += @pr*current_position.quantity %>
+        <th><%=  @pr*current_position.quantity %></th>
+      </tr>
+      <% end %>
+      <tr>
+        <th> </th>
+        <th> </th>
+        <th> </th>
+        <th>Итого = <%= @all_price %></th>
+      </tr>
+
+    </table>
+    <br>
+    <br>
+      Адрес: <% if @order.adress != "" %>
+                        <%= @order.adress %>
+                     <% else %>
+                        <%= "Самовывоз" %>
+                     <% end %>
+                     <br>
+    Телефон: <%= @phone %> <br>
+    Метод доставки: <% if @delivery_method == '1' %>
+                        <%="Самовывоз" %>
+                        <% if @extraction_point == '1' %>
+                            <%="Березовский, Театральная, 22" %>
+                        <% end %>
+                        <% if @extraction_point == '2' %>
+                            <%="Екатеринбург, проспект Орджоникидзе, 14" %>
+                        <% end %>
+                    <% end %>
+                    <% if @delivery_method == '2' %>
+                        <%= "Доставка по ЕКБ" %>
+                    <% end %>
+                    <% if @delivery_method == '3' %>
+                        <%= "Доставка транспортной компанией" %>
+                    <% end %>
+                    <% if @delivery_method == '4' %>
+                        <%= "Почта России" %>
+                    <% end %>
+                    <br>
+    Метод оплаты по ЕКБ: <% if @pay_method == '1' %>
+                           <%="Оплата картой онлайн" %>
+                         <% end %>
+                         <% if @pay_method == '2' %>
+                           <%= "Оплата при получении" %>
+                         <% end %>
+  </body>
+</html>

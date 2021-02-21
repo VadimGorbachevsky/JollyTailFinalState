@@ -1,0 +1,16 @@
+mailer:
+  service: smtp
+  host: jollytail.ru
+
+  sandmail:
+    location:  '/usr/sbin/sendmail'
+    arguments: '-i -t'
+
+  smtp:
+    address: 'smtp.yandex.ru'
+    domain:  'yandex.ru'
+    port:    25
+
+    email:   'info@jollytail.ru'
+    password: 'sulleneye2'
+    authentication: plain

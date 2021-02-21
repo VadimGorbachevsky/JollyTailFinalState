@@ -1,0 +1,6 @@
+<p>Здравствуйте <%= @email %>!</p
+<p>Благодарим за регистрацию в нашем интернет-магазине JollyTail!
+
+<p>Для подтверждения адреса электронной почты перейдите по ссылке:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>

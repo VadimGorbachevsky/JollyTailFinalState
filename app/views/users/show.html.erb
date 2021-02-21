@@ -1,0 +1,244 @@
+<% if ( (current_user == nil) || (current_user.id != @user.id) )%>
+    <div class="h2">Кажется, вы пытаетесь получить доступ к профилю пользователя, которым не являетесь. <br> Вероятно, это связано с неверной индексацией поисковой системы (или вы злоумышленник, что тоже не очень здорово).<br>Впрочем, возможно, вы просто забыли войти на сайт, в этом случае воспользуйтесь кнопкой вход.</div>
+<% else %>
+<div class="btn-group btn-group-lg">
+
+    <% if current_user.email.include? "testernonexistmailer" %>
+        <button type="button" class="profile_click btn btn-success rounded-0 shadow-none" disabled>
+            Гость
+        </button>
+    <% else %>
+        <button type="button" class="profile_click btn btn-success rounded-0 shadow-none">
+            Профиль
+        </button>
+    <% end %>
+    
+    <% if params[:param1] %>
+         <button type="button" class="cart_click btn btn-success shadow-none">
+            Корзина
+         </button>
+    <% else %>
+        <button type="button" class="cart_click btn btn-success shadow-none">
+            Корзина
+        </button>
+    <% end %>
+    
+    <% if current_user.email.include? "testernonexistmailer" %>
+        <button type="button" class="order_click btn btn-success shadow-none" disabled>
+            История заказов
+        </button>
+    <% else %>
+        <button type="button" class="order_click btn btn-success shadow-none">
+            История заказов
+        </button>
+    <% end %>
+</div>
+
+
+      
+      
+      
+        <table class="Cart table table-striped" <%if !params[:param1] %> style="display: none;" <% end %>>
+          <tr>
+            <th> № </th>
+            <th> Наименование </th>
+            <th> Количество </th>
+            <th> Сумма </th>
+            <th> Удалить </th>
+          </tr>
+
+          <% i=0 %>
+          <% full_price = 0 %>
+
+          <% @cart.positions.each do |e| %>
+            <tr>
+              <th> <%= i = i+1 %> </th>
+              <th> <%= Product.find(e.product_id).name %> </th>
+              <th> <%= e.quantity %> </th>
+              <% if ( (Product.find(e.product_id).accia_id == 1) || (Accia.find(Product.find(e.product_id).accia_id).endtime < Time.now()) ) %>
+                <th> <%= Product.find(e.product_id).price %> р.</th>
+                <% full_price = full_price + Product.find(e.product_id).price * e.quantity %>
+              <% else %>
+                <th> <%= Product.find(e.product_id).action_price %> р.</th>
+                <% full_price = full_price + Product.find(e.product_id).action_price * e.quantity %>
+              <% end %>
+              <th> <%= link_to "Удалить", position_path(e.id), :method => :delete  %> </th>
+              <br>
+            </tr>
+          <% end %>
+
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th>  </th>
+            <th> Итого: <%= full_price %> р. </th>
+            <th> </th>
+          </tr>
+          <tr>
+            <th>
+                <%= button_tag link_to("Оформить заказ", order_step_url, class: "text-light"), class: "btn btn-lg bg-success" %>
+            </th>
+            <th>
+            <%= form_for Speed_order.new, remote: true do |f| %>
+                <span style="font-size: 20px; margin-top: 60px;">
+                    Телефон:
+                </span>
+                <%= f.hidden_field :cart_id, :value =>  current_user.cart.id %>
+                <%= f.text_field :phone, style: "width: 200px; font-size: 24px;" %>
+                <%= f.submit "Оформить по телефону", class: "bg-purple btn btn-success speed_order_confirm", style: "font-size: 24px;" %>
+            <% end %>
+            </th>
+          </tr>
+        </table>
+    
+    
+    <ul class="nav nav-tabs Cart" id="myTab" role="tablist" <% if !params[:param1] %> style="display: none;" <% end %>>
+        <li class="nav-item">
+            <a class="nav-link active" id="fiber-tab" data-toggle="tab" href="#fiber" role="tab" aria-controls="fiber" aria-selected="true">Доставка</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pay-tab" data-toggle="tab" href="#pay" role="tab" aria-controls="pay" aria-selected="false">Оплата</a>
+        </li>
+    </ul>
+    <div class="tab-content Cart" id="myTabContent"  <% if !params[:param1] %> style="display: none;" <% end %>>
+        <div class="tab-pane fade show active" id="fiber" role="tabpanel" aria-labelledby="fiber-tab">
+        <div class="jumbotron bg-secondary-30" style="font-size: 20px;">
+            <div class="h3">Доставка заказов:</div>
+            <div class="h5">Доставка заказов по Екатеринбургу и прилегающим городам: Березовский, Верхняя Пышма, Арамиль, Кольцово, Среднеуральск.</div>
+            <p>Доставка от 700р за наш счет.</p>
+            <p>При заказе менее 700р стоимость доставки 150р.</p>
+            <p>Доставка осуществляется в день заказа нашим курьером прямо до вашией двери. <br>
+            Менеджер позвонит вам и согласует удобное время доставки.</p>
+            <div class="h5">Междугородние заказы:</div>
+            <p>Для доставки заказов в другие города мы используем Почту России и транспортные компании.<br>
+            Почта дольше и, как правило, дешевле, зато есть в любом городе.<br>
+            Транспортные компании быстрее и дороже, но пункты самовывоза есть не в любом населенном пункте.<br>
+            Мы отправим заказ тем перевозчиком, которым вам удобно его получить. Менеджер подберет транспортную компанию, доступную и удобную в вашем городе.</p>
+            <div class="h5">Самовывоз товара.</div>
+            <p>Пункт выдачи заказов: г.Екатеринбург пр. Орджоникидзе 14 Зоомагазин JоllyTail. Самововоз вы сможете получить с 10.00 утра до 21.00 вечера. При заказе товара на сайте и получении в пункте выдачи - скидка 3%<br>
+            Для того, чтобы мы поняли, что вы хотите забрать заказ в пункте выдачи — выберите при оформлении заказа — способ доставки САМОВЫВОЗ.<br>
+            Как только мы получим заказ — не позднее, чем через 30 минут обязательно перезвоним, если заказ отправлен в рабочее время. Если же вы сделали заказ после окончания рабочего дня — обработка их начинается в 10 утра.<br>
+            Все заказы полученные в рабочее время, доступны для самовывоза через час после оформления. </p>
+        </div>
+        </div>
+        <div class="tab-pane fade show" id="pay" role="tabpanel" aria-labelledby="pay-tab">
+            <div class="jumbotron bg-secondary-30" style="font-size: 20px;">
+                <div class="h3">Варианты оплаты использумые нами:</div>
+                <p>- Оплата банковской картой онлайн<br>
+                - Оплата курьеру при получении товара</p>
+            </div>
+        </div>
+    </div>        
+
+<% if !current_user.email.include? "testernonexistmailer" %>
+      <% if params[:param1] %>
+          <table class="Profile" style="vertical-align: top; display: none;">
+      <% else %>
+          <table class="Profile" style="vertical-align: top;">
+      <% end %>
+
+        <tr>
+          <th>Имя: <%= @user.name %></th>
+        </tr>
+
+        <tr>
+          <th>Электронный адрес: <%= @user.email %></th>
+        </tr>
+
+        <tr>
+          <th>Город: <%= @user.city %></th>
+        </tr>
+
+        <tr>
+          <th>Телефон: <%= @user.telephone %></th>
+        </tr>
+
+        <tr>
+          <th><%= button_tag( (link_to "Правка", edit_user_path(@user.id), class: "text-light"), class: "btn btn-success") %></th>
+        </tr>
+      </table>
+
+      <table class="Order_history" style="vertical-align: top; display: none;">
+        <tr><th>
+
+        <% if current_user.orders %>
+          <table>
+            <tr>
+              <th style="font-size: 16px; width: 150px;">Дата покупки</th>
+              <th style="font-size: 16px; width: 200px;">Количество позиций</th>
+              <th style="font-size: 16px; width: 100px;">Развернуть</th>
+              <th></th>
+            </tr>
+          </table>
+
+          <% current_user.orders.each do |cur_ord| %>
+                <table>
+                  <tr>
+                    <th style="font-size: 14px; width: 150px; font-weight: normal;"><%= cur_ord.updated_at.strftime("%d / %m / %Y") %></th>
+                    <th style="font-size: 14px; width: 200px; font-weight: normal;"><%= cur_ord.positions.size %></th>
+                    <%= content_tag(:th, :class => "ordl"+cur_ord.id.to_s, :style => "font-size: 14px; width: 100px; font-weight: normal; cursor: pointer;") do %>
+                        Развернуть
+                    <% end %>
+                    <th></th>
+                  </tr>
+                </table>
+                    <%= content_tag(:div, :class => "ordl"+cur_ord.id.to_s, :style => "display: none;") do %>
+                    <table style="border: 1px solid purple;">
+                      <tr>
+                        <th style="font-size: 12px; width: 100px;">Товар</th>
+                        <th style="font-size: 12px; width: 100px;">Количество</th>
+                        <th style="font-size: 12px; width: 100px;">Стоимость</th>
+                        <th></th>
+                      </tr>
+                      <% cur_ord.positions.each do |cur_pos| %>
+                        <tr>
+                          <th style="font-size: 12px; width: 150px; color: blue;"><%= link_to cur_pos.product.name, cur_pos.product %></th>
+                          <th style="font-size: 12px; width: 200px;"><%= cur_pos.quantity %></th>
+                          <th style="font-size: 12px; width: 100px;"><% cur_pos.product.price %></th>
+                          <th></th>
+                        </tr>
+                      <% end %>
+                    </table>
+                    <% end %>
+          <% end %>
+        <% end %>
+        </th></tr>
+      </table>
+<% end %>
+
+<% end %>
+<script>
+  $('.profile_click').on({ click: function() {
+                                                $('.Order_history').hide();
+                                                $('.Cart').hide();
+                                                $('.Profile').show();
+                                              }
+                                              });
+  $('.cart_click').on({ click: function() {
+                                                $('.Order_history').hide();
+                                                $('.Profile').hide();
+                                                $('.Cart').show();
+                                              }
+                                              });
+  $('.order_click').on({ click: function() {
+                                                $('.Order_history').show();
+                                                $('.Profile').hide();
+                                                $('.Cart').hide();
+                                              }
+                                              });
+  $('th[class^="ordl"]').on({ click: function() {
+                                                var cl = $(this).attr("class");
+                                                if ($(this).text() == "Развернуть") {
+                                                  $(this).text("Свернуть");
+                                                  $('div').filter('.'+cl+'').show();
+                                                }
+                                                else {
+                                                  $(this).text("Развернуть");
+                                                  $('div').filter('.'+cl+'').hide();
+                                                }
+                                                }
+                                            });
+    $(".speed_order_confirm").on({ click: function() {
+                                                $(".speed_order_confirm").val("Заявка отправлена")
+                                            }});
+</script>

@@ -1,0 +1,64 @@
+<button type="button" name="button"  class="btn btn-success new_review_form_head" style="padding: 10px;">
+  Оставить отзыв
+</button>
+<table class="new_review_form" style="display: none;">
+  <tr>
+    <th>
+    <% if current_user %>
+      <div style="width: 50%;">
+        <%= form_for Review.new do |f| %>
+            Заголовок:<br>
+            <%= f.text_field :title %> <br>
+            Отзыв:<br>
+            <%= f.text_area :body, size: "65x12" %><br>
+            <%= f.submit "Отправить отзыв" %><br>
+        <% end %>
+      </div>
+    <% else %>
+      Войдите или зарегистрируйтесь, чтобы оставить отзыв.
+    <% end %>
+    </th>
+  </tr>
+</table>
+<br>
+
+<% if !@reviews.empty? %>
+    <table>
+    <% @reviews.reverse.each do |rev| %>
+          <tr>
+            <th>
+              <table style="border: 1px solid purple; width: 50%;">
+                  <tr>
+                    <th><span style="color: Blue; font-size: 20px;"><%= rev.title %></span></th>
+                  </tr>
+                  <tr>
+                    <th><span style="color: Black; font-size: 14px; font-weight: normal;"><%= rev.body %></span></th>
+                  </tr>
+                  <tr>
+                    <th><span style="color: Purple; font-size: 14px; font-weight: normal;">Оставил пользователь: <%= (User.find(rev.user_id).name != "") ? User.find(rev.user_id).name : "Новичок" %></span></th>
+                  </tr>
+                  <% if (rev.answer && (rev.answer != "")) %>
+                  <tr>
+                    <th><span style="color: Green; font-size: 16px; font-weight: normal;"> Ответ администрации: </span></th>
+                  </tr>
+                  <tr>
+                    <th><span style="color: Black; font-size: 14px; font-weight: normal;"> <%= rev.answer %> </span></th>
+                  </tr>
+                  <% end %>
+              </table>
+            </th>
+          </tr>
+    <% end %>
+    </table>
+<% else %>
+  <p style="margin: 20px; font-size: 16px; color: purple;"> Пока никто не оставил отзывов :-(
+      Станьте первым!</p>
+<% end %>
+<script>
+  $(document).ready(function() {
+      $("#revi_main").css("background-color", "Green");
+      $('.new_review_form_head').click(function() {
+      $(".new_review_form").slideToggle();
+      });
+  });
+</script>

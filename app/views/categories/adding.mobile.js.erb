@@ -1,0 +1,3 @@
+$('.scrolled').last().html("<%= j render "shared/to_products_paginate", products: @products %>");
+$('#scrolling_holder').html('<%= link_to 's', adding_url(:page_number => @page_number, :all_products => @all_products, :max_page_number => @max_page_number, :max_products_count => @max_products_count), id: 'scrolling', remote: true%>');
+

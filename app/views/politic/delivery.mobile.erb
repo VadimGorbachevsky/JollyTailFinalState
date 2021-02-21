@@ -1,0 +1,13 @@
+<% content_for :before_alert do %>
+<div style="width: 100%;">
+<div>
+    <%= render partial: "shared/tree", :locals => {cat: 700} %>
+</div>
+</div>
+<% end %>
+
+<div style="font-size: 4vw; width: 100%;"><%= Site.first.delivery.html_safe %></div>
+
+<script>
+  $("#logist_main").css("background-color", "Green");
+</script>

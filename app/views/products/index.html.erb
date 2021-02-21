@@ -1,0 +1,49 @@
+<div class="Catalog" style="width: 100%; display: table;">
+  <div style="display: table-row">
+    <div style="width: 300px; display: table-cell;">
+      <%= render partial: "shared/tree", :locals => {cat: 700} %>
+    </div>
+<div style="display: table-cell;">
+  <% if !@products.empty? %>
+  <h2>Поиск: <%= params[:q] %></h2>
+
+  <div class="product_list_holder" style="display: table">
+
+    <% i=0 %>
+    <% i=i+1 %>
+    <% @products.each do |prod| %>
+
+        <% if i.divmod(3)[1] == 1 %>
+          <%= render inline: '<div style="display: table-row">' %>
+        <% end %>
+
+        <%= render "shared/productonce", e: prod %>
+
+        <% if (i.divmod(3)[1] == 0) || (i == @products.size) %>
+          <%= render inline: '</div>' %>
+        <% end %>
+
+        <% i=i+1 %>
+    <% end %>
+
+  </div>
+
+  <% else %>
+  <div>К сожалению, по вашему запросу ничего не найдено.
+    тут будет форма завяки
+  </div>
+  <% end %>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+  $(document).ready(function() {
+            $("#categ_main").css({background: "-webkit-linear-gradient(white 0%, green 100%)",
+                                  background: "-moz-linear-gradient(white 0%, green 100%)",
+                                  background: "-o-linear-gradient(white 0%, green 100%)",
+                                  background: "linear-gradient(white 0%, green 100%)"});            });
+</script>

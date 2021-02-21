@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <%= favicon_link_tag 'favicon.ico' %>
+     <link rel="icon" href="https://jollytail.ru/assets/favicon.ico" type="image/x-icon">
+    
+    <% if content_for?(:head) %>
+        <%= yield(:head) %>
+    <% end %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(53894206, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        trackHash:true
+    });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/53894206" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <style>
+          .logo1 {
+        font-family: Bell MT, serif;
+        font-size: 6vw;
+        margin-top: 0px;
+        vertical-align: top;
+        color: Blue;
+        font-weight: bold;
+      }
+      .logo2 {
+        font-family: Bell MT, serif;
+        font-size: 6vw;
+        margin-top: 0px;
+        vertical-align: top;
+        color: #00ff00;
+        font-weight: bold;
+      }
+      hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 2px solid Green;
+        /*margin: 1em 0;*/
+        padding: 0;
+      }
+      .mainhead {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.7vw;
+        margin: 0px;
+      }
+      a {
+        text-decoration: none !important;
+        color: inherit !important; /* Отменяем подчеркивание у ссылки */
+      }
+      .user_menu_head {
+        color: Green;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.4vw;
+        vertical-align: top;
+        text-align: left;
+        width: 100%
+      }
+      .start_user_menu {
+        color: Green;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        vertical-align: top;
+        text-align: left;
+        width: 100%
+      }
+      .user_menu_body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: Blue;
+        font-size: 12px;
+        vertical-align: top;
+        text-align: left;
+        margin: 0px;
+        width: 100%
+      }
+      .adress_table {
+        display: table-cell;
+        text-align: left;
+        font-size: 0.8vw;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        vertical-align: top;
+      }
+      .divider{
+        display: table-cell;
+        width: 1vw;
+      }
+      .long_divider{
+        display: table-cell;
+        width: 5vw;
+      }
+      .credo{
+        font-family: Bell MT, serif;
+        position: absolute;
+        margin-top: 6.5vw;
+        margin-left: 23vw;
+        font-weight: bold;
+        font-style: oblique;
+        font-size: 1.5vw;
+        color: Blue;
+      }
+      .bg-purple {
+       background: #DD80CC;
+      }
+      img{
+        margin-top: 0px;
+      }
+      #page-container {
+        position: relative;
+        min-height: 100vh;
+      }
+      #content-wrap {
+        padding-bottom: 10rem;    /* Footer height */
+        }
+      .cat_point {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .sub {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      
+      .dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+    </style>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="google-site-verification" content="7l-UoPpDAveGPY_Cj2ZmNuJ_CW-hFkRyalQliTevHfQ" />
+    <meta name="yandex-verification" content="b3312a68478c818b" />
+    </head>
+
+  <body>
+    <div id="page-container">
+      <div id="content-wrap">
+        <nav class="navbar navbar-expand-md bg-purple navbar-light sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3">
+                                <%= image_tag("JT_logo2.png", :style => "width: 12vw; height: 12vw;") %>
+                            </div>
+                            <div class="col-6">
+                               <div style="margin: 0px; line-height: 1;">
+                                <span class="logo1" style="font-size: 5vw; margin: 0px; line-height: 1;">Jolly</span>
+                                <span class="logo2" style="font-size: 5vw; margin: 0px; line-height: 1;">Tail</span>
+                               </div>
+                               <span style="line-height: 1; color: Purple; font-size: 3vw; font-weight: bold; margin: 0px;">Товары для животных</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>    
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span></button><div class="navbar-collapse collapse" id="collapsibleNavbar" style="">
+                <ul class="navbar-nav font-weight-bold" style="font-size: 12px;">
+                  <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown" aria-expanded="false">
+                          Собаки
+                        </a>
+                        <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Корма
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/8-suhie">Сухие</a>
+                                <a class="dropdown-item text-light" href="/categories/9-vlazhnye">Влажные</a>
+                                <a class="dropdown-item text-light" href="/categories/10-diety">Диеты</a>
+                                <a class="dropdown-item text-light" href="u/categories/7-myaso">Мясо</a>
+                            </div>
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Амуниция
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/12-osheyniki">Ошейники</a>
+                                <a class="dropdown-item text-light" href="/categories/13-povodki">Поводки</a>
+                                <a class="dropdown-item text-light" href="/categories/14-ruletki">Рулетки</a>
+                                <a class="dropdown-item text-light" href="/categories/15-namordniki">Намордники</a>
+                                <a class="dropdown-item text-light" href="/categories/40-shleyki">Шлейки</a>
+                            </div>
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Игрушки
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/36-myachiki">Мячики</a>
+                                <a class="dropdown-item text-light" href="/categories/37-myagkie">Мягкие</a>
+                                <a class="dropdown-item text-light" href="/categories/38-verevochnye">Веревочные</a>
+                                <a class="dropdown-item text-light" href="/categories/39-rezina-lateks-kauchuk">Резина, латекс, каучук</a>
+                            </div>
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Миски
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/41-metall">Металлические</a>
+                                <a class="dropdown-item text-light" href="/categories/43-plastik">Пластиковые</a>
+                            </div>
+                            <a class="dropdown-item text-light" href="/categories/19-lakomstva">Лакомства</a>
+                            <a class="dropdown-item text-light" href="/categories/24-korrektory-povedeniya">Корректоры поведения</a>
+                            <a class="dropdown-item text-light" href="/categories/71-perenoski">Переноски</a>
+                            <a class="dropdown-item text-light" href="/categories/78-lezhanki">Лежанки</a>
+                            <a class="dropdown-item text-light" href="/categories/84-kletki-voliery">Клетки, вольеры</a>
+                            <a class="dropdown-item text-light" href="/categories/83-tualety-dlya-sobak">Туалеты</a>
+                        </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown" aria-expanded="false">
+                          Кошки
+                        </a>
+                        <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Корма
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/44-suhie">Сухие</a>
+                                <a class="dropdown-item text-light" href="/categories/45-vlazhnye">Влажные</a>
+                                <a class="dropdown-item text-light" href="/categories/46-diety">Диеты</a>
+                            </div>
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Наполнители
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/47-drevesnye">Древесные</a>
+                                <a class="dropdown-item text-light" href="/categories/48-silikagelevye">Силикагелевые</a>
+                                <a class="dropdown-item text-light" href="/categories/49-komkuyuschiesya">Комкующиеся</a>
+                                <a class="dropdown-item text-light" href="/categories/50-mineralnye-vpityvayuschie">Минеральные впитывающие</a>
+                                <a class="dropdown-item text-light" href="/categories/86-drevesnye-komkuyuschiesya">Древесные комкующиеся</a>
+                            </div>
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Миски
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/51-plastik">Пластиковые</a>
+                                <a class="dropdown-item text-light" href="/categories/52-keramika">Керамические</a>
+                            </div>
+                            <a class="dropdown-item text-light" href="/categories/80-domiki-kogtetochki">Домики, когтеточки</a>
+                            <a class="dropdown-item text-light" href="/categories/27-lotki">Лотки, совки</a>
+                            <a class="dropdown-item text-light" href="/categories/30-lakomstva">Лакомства</a>
+                            <a class="dropdown-item text-light" href="/categories/81-lezhanki-dlya-koshek">Лежанки</a>
+                            <a class="dropdown-item text-light" href="/categories/28-ammunitsiya">Амуниция</a>
+                            <a class="dropdown-item text-light" href="/categories/34-korrektory-povedeniya">Корректоры поведения</a>
+                            <a class="dropdown-item text-light" href="/categories/29-igrushki">Игрушки</a>
+                        </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown" aria-expanded="false">
+                          Гигиена и витамины
+                        </a>
+                        <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Шампуни
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/62-shampuni-dlya-koshek">Для кошек</a>
+                                <a class="dropdown-item text-light" href="/categories/61-shampuni-dlya-sobak">Для собак</a>
+                                <a class="dropdown-item text-light" href="/categories/64-shampuni-obschie">Общие</a>
+                            </div>
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop_1" data-toggle="dropdown" aria-expanded="false">
+                                Витамины
+                            </a>
+                            <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                                <a class="dropdown-item text-light" href="/categories/82-vitaminy-dlya-koshek">Для кошек</a>
+                                <a class="dropdown-item text-light" href="/categories/70-vitaminy-dlya-sobak">Для собак</a>
+                                <a class="dropdown-item text-light" href="/categories/87-vitaminy-obschie">Общие</a>
+                            </div>
+                            <a class="dropdown-item text-light" href="/categories/63-shampuni-antiparazitarnye">Антипаразитарные средства</a>
+                            <a class="dropdown-item text-light" href="/categories/67-sredstva-dlya-glaz-i-ushey">Для глаз и ушей</a>
+                            <a class="dropdown-item text-light" href="/categories/68-sredstva-dlya-polosti-rta">Для полости рта</a>
+                            <a class="dropdown-item text-light" href="/categories/79-unichtozhiteli-zapahov">Уничтожители запахов и пятен</a>
+                            <a class="dropdown-item text-light" href="/categories/65-schetki-rascheski-puhoderki">Щетки, расчески, пуходерки</a>
+                            <a class="dropdown-item text-light" href="/categories/66-kogterezy">Когтерезы</a>
+                            <a class="dropdown-item text-light" href="/categories/77-pelenki-i-podguzniki">Пеленки, подгузники</a>
+                            <a class="dropdown-item text-light" href="/categories/69-pakety-dlya-uborki">Пакеты для уборки</a>
+                        </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown" aria-expanded="false">
+                          Птицы и грызуны
+                        </a>
+                        <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                            <a class="dropdown-item text-light" href="/categories/73-korma-dlya-gryzunov">Корма для грызунов</a>
+                            <a class="dropdown-item text-light" href="/categories/74-lakomstva-dlya-ptits">Корма для птиц</a>
+                            <a class="dropdown-item text-light" href="/categories/72-lakomstva-dlya-gryzunov">Лакомства для грызунов</a>
+                            <a class="dropdown-item text-light" href="/categories/74-lakomstva-dlya-ptits">Лакомства для птиц</a>
+                            <a class="dropdown-item text-light" href="/categories/85-napolniteli-dlya-gryzunov">Наполнители для грызунов</a>
+                        </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown" aria-expanded="false">
+                          Рыбы и черепахи
+                        </a>
+                        <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                            <a class="dropdown-item text-light" href="/categories/76-korma-dlya-ryb">Корма</a>
+                        </div>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link text-light" href="/accias">Акции</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown" aria-expanded="false">
+                          Информация
+                        </a>
+                        <div class="dropdown-menu bg-purple" style="font-size: 12px;">
+                            <a class="dropdown-item text-light" href="/credits">Контакты</a>
+                            <a class="dropdown-item text-light" href="/delivery">Доставка и оплата</a>
+                        </div>
+                   </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+      
+    <div class="mainhead" style="display: none;
+                                position: -webkit-sticky;
+                                position: sticky;
+                                top: 0px;
+                                font-size: 3vw;
+                                background-color: #a580a9;
+                                width: 100%;
+                                border: 0px;
+                                padding: 2px ! important;
+                                margin: 0px;">
+        <%= form_tag(search_url, method: :get)  do %>
+            <%= text_field_tag(:q, (params[:q] ? params[:q] :'Воспользуйтесь поиском!'), id: 'search', style: 'font-size: 5vw; border: 0px; padding: 6px ! important; margin: 1px; height: 5vw;')%><%= submit_tag "Поиск", class: "btn btn-success", style: "font-size: 5vw; border: 0px; padding: 4px ! important; margin: 0px;" %>
+        <% end %>
+    </div>
+
+        <% if user_signed_in? %>
+        <div style="z-index: 100; position: fixed; background-color: #fae8fc; bottom: 2vw; right: 2vw; font-size: 8vw; height: 18vw; border-radius: 3vw;">
+            <span style="font-size: 18px;"><%= link_to image_tag("cart.jpg", style: "margin-left: 3vw; width: 40px; heigth: 40px;"),  user_path(current_user, :param1 => "start") %></span>
+            <span id="cartcountid" style="font-size: 18px; color: Purple; vertical-align: middle;"><%= current_user.cart.positions ? " " + current_user.cart.positions.size.to_s + " " : "" %></span>
+            <span class="user-cab" style= "color: red; vertical-align: middle; font-size: 18px;">
+                <% if current_user.name != "" %>
+                    <%= current_user.name %>
+                <% else %>
+                    Пользователь
+                <% end %>
+            </span>
+            
+            <div class="user_menu_body" style="display: none; z-index: 100; position: fixed; background-color: #fae8fc; bottom: 20vw; left: 50vw; right: 2vw; font-size: 20px; height: 30vw; border-radius: 3vw;">
+                <div style="padding: 0px;">
+                    <%= link_to "Личный кабинет",  user_path(current_user)  %>
+                </div>
+                <div style="padding: 0px;">
+                    <%= link_to "Корзина",  user_path(current_user, :param1 => "start") %>
+                    <span id="cartcountid" style="color: Purple"><%= current_user.cart.positions ? " " + current_user.cart.positions.size.to_s : "" %></span>
+                </div>
+                <div style="padding: 0px;">
+                    <%= link_to "Выход",  destroy_user_session_path, method: :delete  %>
+                </div>
+            </div>
+        </div>
+        <% else %>
+            <div style="z-index: 100; position: fixed; background-color: #fae8fc; bottom: 2vw; right: 2vw; font-size: 20px; height: 18vw; border-radius: 3vw;">
+                <span style="color: Blue;"><%= link_to("Вход",  new_user_session_path) %></span>
+                <span><%= link_to("Регистрация",  new_user_registration_path) %> </span>
+            </div>
+        <% end %>
+  
+  <% if content_for?(:before_alert) %>
+        <%= yield(:before_alert) %>
+  <% end %>
+    
+  <h1 style="color: Green; font-size: 18px;" class="notice">
+        <% if notice.class == Array %>
+            <%= notice.join("<br/>").html_safe %>
+        <% else %>
+            <%= notice %>
+        <% end %>
+  </h1>
+  <h1 style="color: Green;" class="alert"><%= alert %></h1>
+  
+  <%= yield %>
+  
+
+    <footer id="footer" style="position: relative ! important; height: 5vw; background-color: #a580a9;">
+        <div style="font-size: 3vw;"> <%= link_to "Политика конфиденциальности", politic_url%></div>
+        <div style="font-size: 3vw;"> <%= link_to "Правила возрата", reget_url%></div>
+        <div style="font-size: 2vw;">На сайте использованы изображения с ресурса:<a href=https://ru.pngtree.com>Графика от pngtree.com</a></div>
+    </footer>
+</div>
+  </body>
+</html>
+
+<script>
+  $(document).ready(function(){
+      var i = false;
+      var buf_color = "";
+      var countcart = 0;
+      $('#search').one('click', function(e) { $(this).val(""); });
+      $(".user-cab").on({click:  function() {
+                                            $('.user_menu_body').slideToggle();
+                                            } });
+      $(".notread").on({click:  function() {
+                                            $(this).attr('style', 'background: Purple !important').delay( 800 );
+                                            $(this).attr('value', 'В корзине');
+                                            } });
+    });  
+  
+  
+  $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+  if (!$(this).next().hasClass('show')) {
+    $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
+  }
+  var $subMenu = $(this).next('.dropdown-menu');
+  $subMenu.toggleClass('show');
+
+
+  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+    $('.dropdown-submenu .show').removeClass('show');
+  });
+
+
+  return false;
+    });
+</script>

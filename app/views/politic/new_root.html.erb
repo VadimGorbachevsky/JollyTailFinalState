@@ -1,0 +1,33 @@
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Форма юзера</th>
+        <th>Выбор чата</th>
+        <th>Текст чата</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+        <%= form_for Mess.new do |f| %>
+            <%= f.text_field :body%>
+            <%= f.submit "Отправить" %>
+        <% end %>
+        </td>
+        <% Chat.all.each do |d| %>
+            <td>
+            <%= d.id %>
+            </td>
+        <% end %>
+        <% Chat.all.each do |d| %>
+        <td>
+            <% Mess.where(chat: d).each do |m|%>
+                <%= m.body %><br>
+            <% end %>
+        </td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>

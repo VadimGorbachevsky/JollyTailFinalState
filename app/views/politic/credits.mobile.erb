@@ -1,0 +1,38 @@
+<% content_for :before_alert do %>
+<div style="width: 100%;">
+<div>
+    <%= render partial: "shared/tree", :locals => {cat: 700} %>
+</div>
+</div>
+<% end %>
+
+<h1 style="font-size: 18px; margin: 10px; color: blue;">Как нас найти?</h1>
+
+<div style="font-size: 14px; margin: 10px;">
+  Мы находимся по адресу Сулимова, 42,<br>
+  И работаем без выходных с 10:00 до 21:00
+</div>
+
+<h1 style="font-size: 18px; margin: 10px; color: blue;">Как с нами связаться?</h1>
+<div style="font-size: 14px; margin: 10px;">
+  Наш телефон: +7-950-546-20-85<br>
+  Наш e-mail: info@jollytail.ru<br>
+  Наш Viber:  +7-950-546-20-85<br>
+  Наш WhatsApp: +7-950-546-20-85<br>
+</div>
+<br>
+<h1 style="font-size: 18px; margin: 10px; color: blue;">Данные предприятия:</h1>
+<div style="font-size: 14px; margin: 10px;">
+  ИНН:660406876393<br>
+  ОГРНИП:319665800075280<br>
+  Фактический адрес: г. Екатеринбург, Сулимова, 42<br>
+  Юридический адрес: г. Березовский, пер.Рудничный, 5<br>
+  Расчетный счет: 40802810502500051203<br>
+  в филиале Точка ПАО Банка "Финансовая Корпорация Открытие"<br>
+  БИК: 044525999<br>
+  Корр.счёт:30101810845250000999
+</div>
+
+<script>
+  $("#about_main").css("background-color", "Green");
+</script>

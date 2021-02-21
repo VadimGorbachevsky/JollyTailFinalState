@@ -1,0 +1,415 @@
+<% content_for :head do %>
+  <meta property="og:title" content="<%= @product.name %> купить с доставкой в зоомагазине JollyTail"/>
+  <meta property="og:description" content="<%= @product.name %> купить с доставкой в зоомагазине JollyTail"/>
+  <meta property="og:image" content="<%= @product.images.attached? ? @product.images[0] : "https://jollytail.ru/assets/sq_logo-a9833f5f5aa36588b662698425cc597149affbda6cb6f6b9b3338c97afbdcc5d.png"%>"/>
+  <title><%= @product.name %>, Зоомагазин JollyTail</title>
+  <meta name="title" content="<%= @product.name %>, Зоомагазин JollyTail"/>
+  <meta name="description" content="<%= @product.desc != '' ? strip_tags(@product.desc) : @product.name %>"/>
+  <meta name="keywords" content="<%= @product.name %> купить в зоомагазине JollyTail"/>
+<% end %>
+
+
+<% @category = @product.category %>
+<nav aria-label="breadcrumb bg-white">
+  <ol class="breadcrumb bg-white text-success">
+    <% if @category.parent_id %>
+        <% if Category.find(@category.parent_id).parent_id %>
+            <li class="breadcrumb-item"> <%= link_to Category.find(Category.find(@category.parent_id).parent_id).name, category_path(Category.find(Category.find(@category.parent_id).parent_id)) %> </li>
+            <li class="breadcrumb-item"> <%= link_to Category.find(@category.parent_id).name, category_path(Category.find(@category.parent_id)) %> </li>
+            <li class="breadcrumb-item"> <%= link_to @category.name, category_path(@category) %> </li>
+            <li class="breadcrumb-item active"> <%= @product.name %> </li>
+        <% else %>
+            <li class="breadcrumb-item"> <%= link_to Category.find(@category.parent_id).name, category_path(Category.find(@category.parent_id)) %> </li>
+            <li class="breadcrumb-item"> <%= link_to @category.name, category_path(@category) %> </li>
+            <li class="breadcrumb-item active">  <%= @product.name %> </li>
+        <% end %>
+    <% else %>
+        <li class="breadcrumb-item"> <%= link_to @category.name, category_path(@category) %> </li>
+        <li class="breadcrumb-item active">  <%= @product.name %> </li>
+    <% end %>
+  </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <% if @product.images.attached? %>
+                <%= image_tag(url_for(@product.images[0]), size: "300x300", class: "main_img", alt: @product.name, title: @product.name) %>
+                <% if (@product.images.length > 1) %>
+                    <% images = [] %>
+                    <% @product.images.each_with_index do |image, index| %>
+                        <% if (index > 0) %>
+                            <% images.push(image_tag(image, size: "50x50", class: "prev_img", style: "cursor: pointer; border: 1px solid green;")) %>
+                        <% end %>
+                    <% end %>
+                    <%= content_tag :div, images.join(" ").html_safe, class: "img-circle" %>
+                <% end %>
+            <% else %>
+                <div style="border: 1px solid purple; width: 302px;"><%= image_tag("default_foto.jpg", size: "300x300") %></div>
+            <% end %>
+            
+        </div>
+<% if @product.main %>
+    <% @all_fas = @product.follows.split(';') %>
+    <% @all_fas.each do |current_product_id| %>
+        <% @current_product = Product.find(current_product_id) %>
+        <div class="speed_order" id="<%= @current_product.id %>" style="box-shadow: 0 0 3px purple; top: 500px; position: absolute; background: white; width: 290px; height: 490px; z-index: 7; text-align: center; display: none;">
+            <div class="speed_order_close" id="<%= @current_product.id %>" style="cursor: pointer; position: absolute; right: 4px; color: purple; font-size: 24px;">
+                X
+            </div>
+            <br>
+            <div style="font-size: 24px;">
+                Заказ в один клик
+            </div>
+            <div style="font-size: 20px; margin-top: 15px;">
+                Просто укажите телефон и мы сами перезвоним вам для оформления
+            </div>
+            <div style="font-size: 20px; color: green; margin-top: 15px;">
+                <%= @product.name %> <%= @current_product.currentfas %>
+            </div>
+            <%= form_for Speed_order.new, remote: true do |f| %>
+                <div style="font-size: 20px; margin-top: 60px;">
+                    Телефон:
+                </div>
+                <%= f.hidden_field :product_id, :value =>  @current_product.id %>
+                <%= f.text_field :phone, style: "width: 200px; font-size: 24px;" %><br><br>
+                <%= f.submit "Перезвоните мне!", class: "btn btn-success speed_order_confirm", style: "font-size: 24px;" %>
+            <% end %>
+        </div>    
+    <% end %>
+<% else %>
+    <div class="speed_order" id="<%= @product.id %>" style="box-shadow: 0 0 3px purple; top: 500px; position: absolute; background: white; width: 290px; height: 490px; z-index: 7; text-align: center; display: none;">
+        <div class="speed_order_close" id="<%= @product.id %>" style="cursor: pointer; position: absolute; right: 4px; color: purple; font-size: 24px;">
+            X
+        </div>
+        <br>
+        <div style="font-size: 24px;">
+            Заказ в один клик
+        </div>
+        <div style="font-size: 20px; margin-top: 15px;">
+            Просто укажите телефон и мы сами перезвоним вам для оформления
+        </div>
+        <div style="font-size: 20px; color: green; margin-top: 15px;">
+            <%= @product.name %>
+        </div>
+        <%= form_for Speed_order.new, remote: true do |f| %>
+            <div style="font-size: 20px; margin-top: 60px;">
+                Телефон:
+            </div>
+            <%= f.hidden_field :product_id, :value =>  @product.id %>
+            <%= f.text_field :phone, style: "width: 200px; font-size: 24px;" %><br><br>
+            <%= f.submit "Перезвоните мне!", class: "btn btn-success speed_order_confirm", style: "font-size: 24px;" %>
+        <% end %>
+    </div>
+<% end %>
+
+            <div class="col-md-8">
+                <h1 style="font-size: 24px; color: blue; font-weight: bold; vertical-align: top; text-align: left;"><%= @product.name %></h1>
+                <br><br><br>
+                <% @base_product = @product %>
+                
+                <% if @base_product.main %>
+                    <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Фасовка</th>
+                        <th>Количество</th>
+                        <th>Действие</th>
+                    </tr>
+                    </thead>
+                    </tbody>
+                    <% @all_fas = @base_product.follows.split(';') %>
+                    <% @all_fas.each do |current_product_id| %>
+                        <% @product = Product.find(current_product_id) %>
+                            <tr <%= ( params[:ids] && (params[:ids].to_i == @product.id.to_i) ) ? "class=bg-warning" : '' %> >
+                        <% if @product.productcount.count > 0 %> 
+                            <% if user_signed_in? %>
+                                
+                                    <th><span class="fas" style="font-size: 20px;"><%= @product.currentfas %></span><br>
+                                    <% @accia = Accia.find(@product.accia_id) %>
+                                    <% @starttime = @accia.starttime %>
+                                    <% @time = Time.now(); %>
+                                    <% @endtime = @accia.endtime %>
+                                    <% if (@time > @starttime) && (@time < @endtime) %>
+                                        <span class="price" style="font-size: 20px; color: Red;"><%= @product.action_price %> p.</span></th>
+                                    <% else %>
+                                        <span class="price" style="font-size: 20px; color: Purple;"><%= @product.price %> p.</span></th>
+                                    <% end %>
+                                    <th>
+                                    <span class="badge badge-success minus <%=@product.id%>" style="cursor: pointer; font-size: 26px;">-</span>
+                                    <span class="product_count_placer_view text-success <%=@product.id%>" style="font-size: 26px; color: Green;">1</span>
+                                    <span class="product_count_placer <%=@product.id%>" style="font-size: 26px; color: Green;"> шт.</span>
+                                    <span class="badge badge-success plus <%=@product.id%>" style="cursor: pointer; font-size: 26px;">+</span>
+                                    </th>
+                                    
+                                    <% @contan = false %>
+                                    <% current_user.cart.positions.each do |pos| %>
+                                        <% pos.product.id == @product.id ? @contan = true : ''%>
+                                    <% end %>
+                                    <th class="">
+                                    <% if @contan == false %>
+                                        <div class="btn-group btn-group-vertical float-right">
+                                            <%= form_for Position.new, remote: true do |f| %>
+                                            <%= f.hidden_field :prod_id, :value =>  @product.id%>
+                                            <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s)  %>
+                                            <%= f.submit "Купить", class: "notread btn btn-lg bg-success btn-primary" %>
+                                            <% end %>
+                                            <button type="button" name="button" id="<%= @product.id %> "class="speed_order_open btn  btn-lg bg-purple btn-primary">Заказ в 1 клик</button>
+                                        </div>
+                                    <% else %>
+                                        <%= form_for Position.new, remote: true do |f| %>
+                                        <%= f.hidden_field :prod_id, :value =>  @product.id%>
+                                        <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s)  %>
+                                        <%= f.submit "В корзине", class: "alread", style: "background: Purple !important;" %>
+                                        <% end %>
+                                    <% end %>
+                                    </th>
+                                
+                            <% else %>
+                                
+                                    <th><span class="fas" style="font-size: 20px;"><%= @product.currentfas %></span><br>
+                                    <% @accia = Accia.find(@product.accia_id) %>
+                                    <% @starttime = @accia.starttime %>
+                                    <% @time = Time.now(); %>
+                                    <% @endtime = @accia.endtime %>
+                                    <% if (@time > @starttime) && (@time < @endtime) %>
+                                        <span class="price" style="font-size: 20px; color: Red;"><%= @product.action_price %> p.</span></th>
+                                    <% else %>
+                                        <span class="price" style="font-size: 20px; color: Purple;"><%= @product.price %> p.</span></th>
+                                    <% end %>
+                                    <th>
+                                    <span class="badge badge-success minus <%= @product.id %>" style="cursor: pointer; font-size: 26px;">-</span>
+                                    <span class="product_count_placer_view text-success <%= @product.id %>" style="font-size: 26px; color: Green;">1</span>
+                                    <span class="product_count_placer <%= @product.id %>" style="font-size: 26px; color: Green;"> шт.</span>
+                                    <span class="badge badge-success plus <%= @product.id %>" style="cursor: pointer; font-size: 26px;">+</span>
+                                    </th>
+                                    
+                                    <th>
+                                    <div class="btn-group btn-group-vertical float-right">
+                                        <%= form_for User.new, :url => url_for(:controller => 'users', :action => 'first_guest_taken') do |f| %>
+                                        <%= f.hidden_field :prod_id, :value =>  @product.id %>
+                                        <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s)  %>
+                                        <%= f.submit "Купить", class: "btn btn-lg btn-success btn-primary" %>
+                                        <% end %>
+                                        <button type="button" name="button" id="<%= @product.id %>" class="speed_order_open btn btn-lg bg-purple btn-primary">Заказ в 1 клик</button>
+                                    </div>
+                                    </th>
+                                
+                            <% end %>
+                        <% else %> 
+                            <th><span class="fas" style="font-size: 20px;"><%= @product.currentfas %></span><br>
+                            <% @accia = Accia.find(@product.accia_id) %>
+                            <% @starttime = @accia.starttime %>
+                            <% @time = Time.now(); %>
+                            <% @endtime = @accia.endtime %>
+                            <% if (@time > @starttime) && (@time < @endtime) %>
+                                <span class="price" style="font-size: 20px; color: Red;"><%= @product.action_price %> p.</span></th>
+                            <% else %>
+                                <span class="price" style="font-size: 20px; color: Purple;"><%= @product.price %> p.</span></th>
+                            <% end %>
+                            <th></th>
+                            <th><h2 style="color: Purple"> <%= link_to "Заказать", kvitok_url(:pr_id => @product.id) %>  </h2></th>
+                        <% end %>
+                        </tr>        
+                    <% end %>
+                    </tbody>
+                    </table>
+                <% else %> <!--- end if @base--->
+                    <% if @product.productcount.count > 0 %> 
+                        <% if user_signed_in? %>
+                            
+                                <% @accia = Accia.find(@product.accia_id) %>
+                                <% @starttime = @accia.starttime %>
+                                <% @time = Time.now(); %>
+                                <% @endtime = @accia.endtime %>
+                                <% if (@time > @starttime) && (@time < @endtime) %>
+                                    <span class="price" style="font-size: 20px; color: Red;">Цена по акции: <%= @product.action_price %> p.</span><br>
+                                <% else %>
+                                    <span class="price" style="font-size: 20px; color: Purple;">Цена: <%= @product.price %> p.</span><br>
+                                <% end %>
+                                <br>
+                                <br>
+                                <span class="badge badge-success minus <%=@product.id%>" style="cursor: pointer; font-size: 26px;">-</span>
+                                <span class="product_count_placer_view text-success <%=@product.id%>" style="font-size: 26px; color: Green;">1</span>
+                                <span class="product_count_placer <%=@product.id%>" style="font-size: 26px; color: Green;"> шт.</span>
+                                <span class="badge badge-success plus <%=@product.id%>" style="cursor: pointer; font-size: 26px;">+</span>
+                                
+                                <% @contan = false %>
+                                <% current_user.cart.positions.each do |pos| %>
+                                    <% pos.product.id == @product.id ? @contan = true : ''%>
+                                <% end %>
+                                <% if @contan == false %>
+                                    <div class="btn-group btn-group-vertical float-right">
+                                        <%= form_for Position.new, remote: true do |f| %>
+                                        <%= f.hidden_field :prod_id, :value =>  @product.id%>
+                                        <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s)  %>
+                                        <%= f.submit "Купить", class: "notread btn btn-lg bg-success btn-primary" %>
+                                        <% end %>
+                                        <button type="button" name="button" id="<%= @product.id %>" class="speed_order_open btn  btn-lg bg-purple btn-primary">Заказ в 1 клик</button>
+                                    </div>
+                                <% else %>
+                                    <%= form_for Position.new, remote: true do |f| %>
+                                    <%= f.hidden_field :prod_id, :value =>  @product.id%>
+                                    <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s)  %>
+                                    <%= f.submit "В корзине", class: "alread", style: "background: Purple !important;" %>
+                                    <% end %>
+                                <% end %>
+                            
+                        <% else %>
+                            
+                                <% @accia = Accia.find(@product.accia_id) %>
+                                <% @starttime = @accia.starttime %>
+                                <% @time = Time.now(); %>
+                                <% @endtime = @accia.endtime %>
+                                <% if (@time > @starttime) && (@time < @endtime) %>
+                                    <span class="price" style="font-size: 20px; color: Red;">Цена по акции: <%= @product.action_price %> p.</span><br>
+                                <% else %>
+                                    <span class="price" style="font-size: 20px; color: Purple;">Цена: <%= @product.price %> p.</span><br>
+                                <% end %>
+                                <br>
+                                <br>
+                                <span class="badge badge-success minus <%=@product.id%>" style="cursor: pointer; font-size: 26px;">-</span>
+                                <span class="product_count_placer_view text-success <%=@product.id%>" style="font-size: 26px; color: Green;">1</span>
+                                <span class="product_count_placer <%=@product.id%>" style="font-size: 26px; color: Green;"> шт.</span>
+                                <span class="badge badge-success plus <%=@product.id%>" style="cursor: pointer; font-size: 26px;">+</span>
+                                
+                                <div class="btn-group btn-group-vertical float-right">
+                                    <%= form_for User.new, :url => url_for(:controller => 'users', :action => 'first_guest_taken') do |f| %>                                
+                                    <%= f.hidden_field :prod_id, :value =>  @product.id%>
+                                    <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s) %>
+                                    <%= f.submit "Купить", class: "notread btn btn-lg btn-success btn-primary" %>
+                                    <% end %>
+                                    <button type="button" name="button" id="<%= @product.id %>" class="speed_order_open btn btn-lg bg-purple btn-primary">Заказ в 1 клик</button>
+                                </div>
+                            
+                        <% end %>
+                    <% else %> 
+                        <% @accia = Accia.find(@product.accia_id) %>
+                        <% @starttime = @accia.starttime %>
+                        <% @time = Time.now(); %>
+                        <% @endtime = @accia.endtime %>
+                        <% if (@time > @starttime) && (@time < @endtime) %>
+                            <span class="price" style="font-size: 20px; color: Red;">Цена по акции: <%= @product.action_price %> p.</span><br>
+                        <% else %>
+                            <span class="price" style="font-size: 20px; color: Purple;">Цена: <%= @product.price %> p.</span><br>
+                        <% end %>
+                        <h2 style="color: Purple"> <%= link_to "Заказать", kvitok_url(:pr_id => @product.id) %>  </h2>
+                    <% end %>
+                <% end %>
+            </div>
+        
+    </div>
+    
+    
+    
+    
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="cost-tab" data-toggle="tab" href="#cost" role="tab" aria-controls="cost" aria-selected="true">Описание</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="fiber-tab" data-toggle="tab" href="#fiber" role="tab" aria-controls="fiber" aria-selected="false">Доставка</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pay-tab" data-toggle="tab" href="#pay" role="tab" aria-controls="pay" aria-selected="false">Оплата</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="cost" role="tabpanel" aria-labelledby="cost-tab">
+            <div class="jumbotron bg-secondary-30">
+                <span class="show_more" style="width: 100%; font-size: 16px; color: Black; vertical-align: top; text-align: left;"><%= (params[:market] && (params[:market] == "yes")) ? @base_product.market_desc.html_safe : @base_product.desc.html_safe %></span>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="fiber" role="tabpanel" aria-labelledby="fiber-tab">
+        <div class="jumbotron bg-secondary-30" style="font-size: 20px;">
+            <div class="h3">Доставка заказов:</div>
+            <div class="h5">Доставка заказов по Екатеринбургу и прилегающим городам: Березовский, Верхняя Пышма, Арамиль, Кольцово, Среднеуральск.</div>
+            <p>Доставка от 700р за наш счет.</p>
+            <p>При заказе менее 700р стоимость доставки 150р.</p>
+            <p>Доставка осуществляется в день заказа нашим курьером прямо до вашией двери. <br>
+            Менеджер позвонит вам и согласует удобное время доставки.</p>
+            <div class="h5">Междугородние заказы:</div>
+            <p>Для доставки заказов в другие города мы используем Почту России и транспортные компании.<br>
+            Почта дольше и, как правило, дешевле, зато есть в любом городе.<br>
+            Транспортные компании быстрее и дороже, но пункты самовывоза есть не в любом населенном пункте.<br>
+            Мы отправим заказ тем перевозчиком, которым вам удобно его получить. Менеджер подберет транспортную компанию, доступную и удобную в вашем городе.</p>
+            <div class="h5">Самовывоз товара.</div>
+            <p>Пункты выдачи заказов:
+            <ul>
+            <li>г.Екатеринбург, проспект Орджоникидзе, 14</li>
+            <li>г.Березовский, ул. Театральная 22</li>
+            </ul>
+            Самововоз вы сможете получить с 10.00 утра до 21.00 вечера. При заказе товара на сайте и получении в пункте выдачи - скидка 3%<br>
+            Для того, чтобы мы поняли, что вы хотите забрать заказ в пункте выдачи — выберите при оформлении заказа — способ доставки САМОВЫВОЗ.<br>
+            Как только мы получим заказ — не позднее, чем через 30 минут обязательно перезвоним, если заказ отправлен в рабочее время. Если же вы сделали заказ после окончания рабочего дня — обработка их начинается в 10 утра.<br>
+            Все заказы полученные в рабочее время, доступны для самовывоза через час после оформления. </p>
+        </div>
+        </div>
+        <div class="tab-pane fade show" id="pay" role="tabpanel" aria-labelledby="pay-tab">
+            <div class="jumbotron bg-secondary-30">
+                <div class="h3">Варианты оплаты используемые нами:</div>
+                <p>- Оплата банковской картой онлайн<br>
+                - Оплата курьеру при получении товара</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+</div>
+
+<script>
+  $(document).ready(function() {
+     $("#categ_main").css({background: "-webkit-linear-gradient(white 0%, green 100%)",
+                                  background: "-moz-linear-gradient(white 0%, green 100%)",
+                                  background: "-o-linear-gradient(white 0%, green 100%)",
+                                  background: "linear-gradient(white 0%, green 100%)"});
+
+      $('.prev_img').click(function() {
+      var $buf = $(this).attr('src');
+      $(this).attr('src', $('.main_img').attr('src'));
+      $('.main_img').attr('src', $buf);
+      });
+      
+
+  });
+  
+  $('.speed_order_confirm').click(function() {
+      $(".speed_order").hide();
+      });
+      
+    $('.speed_order_close').click(function() {
+      $i = this.id;
+      $("#"+$i).filter(".speed_order").delay(100).slideToggle();
+      });
+      
+  $('.speed_order_open').click(function() {
+      $i = this.id;
+      $("#"+$i).filter(".speed_order").delay(100).slideToggle();
+      });
+      
+    $('.plus').click(function() {
+      $current_class = this.classList[3];
+      $counter = $(".counter."+$current_class);
+      var $current_value = $counter.val();
+      $current_value++;
+      $counter.val( $current_value);
+      $("input.counter."+$current_class).attr("value", $current_value)
+      $(".product_count_placer_view."+$current_class).html($counter.val())
+    });
+    
+    $('.minus').click(function() {
+      $current_class = this.classList[3];
+      $counter = $(".counter."+$current_class);
+      var $current_value = $counter.val();
+      $current_value--;
+      if($current_value > 0) {
+        $counter.val( $current_value);
+        $("input.counter."+$current_class).attr("value", $current_value)
+        $(".product_count_placer_view."+$current_class).html($counter.val())
+      }
+    });
+      
+  
+</script>

@@ -1,0 +1,49 @@
+<% content_for :before_alert do %>
+<div style="width: 100%;">
+<div><%= render partial: "shared/tree", :locals => {cat: 700} %></div>
+
+<div style="width: 100%;">
+<div class="main_brand" style="width: 100%; font-size: 12vw;
+    background: -webkit-linear-gradient(#ffffff 0%, #a580a9 100%);
+    background: -moz-linear-gradient(#ffffff 0%, #a580a9 100%);
+    background: -o-linear-gradient(#ffffff 0%, #a580a9 100%);
+    background: linear-gradient(#ffffff 0%, #a580a9 100%);
+">Бренды ></div>
+
+<div class="brand_list" style="display: none; width: 100%; background-color: #fae8fc; font-size: 12vw;">
+    <% @all_flags = [] %>
+    <% Category.all.each do |current_category| %>
+        <% if current_category.flags != nil %>
+            <% @all_flags += current_category.flags.split(';') %>
+        <% end %>
+    <% end %>
+    <% @all_flags = @all_flags.uniq %>
+    <% @all_flags.each do |brand| %>
+        <div style="font-size: 10vw;"><%= link_to brand, show_all_by_brand_url(:page_number => 1, :brand => brand) %></div>
+    <% end %>
+</div>
+
+<script>
+    var $main_b = $('.main_brand');
+    $main_b.click(function() {
+        $('.brand_list').slideToggle();
+        if ($(this).text() == "Бренды >") {
+                        $(this).text("Бренды");
+                        }
+                        else {
+                        $(this).text("Бренды >");
+                        }
+        });
+</script>
+</div>
+</div>
+<% end %>
+
+<% if !@products.empty? %>
+    <h2>Поиск: <%= params[:q] %></h2>
+    <% @products.each do |prod| %>
+        <%= render "shared/productonce", e: prod %>
+    <% end %>
+<% else %>
+  <div>К сожалению, по вашему запросу ничего не найдено.</div>
+<% end %>

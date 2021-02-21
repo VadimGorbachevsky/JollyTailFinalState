@@ -1,0 +1,63 @@
+<h2 style="margin: 20px; color: Purple;">Для оформления заказа укажите свой номер телефона и выберите способ доставки и оплаты</h2>
+
+<div style="font-size: 14px; margin-left: 20px;">
+<%= form_for Order.new do %>
+<span style="font-weight: bold;">Телефон: </span> <%= text_field_tag :phone, nil, class: "tel_pole", placeholder: "+7-XXX-XXX-XX-XX" %><br>
+<br>
+<span style="font-weight: bold;">Выберите способ получения:</span><br>
+
+<div class="form-group form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="radio" name="delivery_method" id="delivery_ekb" value="2"> Доставка по Екатеринбургу
+    </label><br>
+     <label class="form-check-label">
+      <input class="form-check-input" type="radio" name="delivery_method" id="delivery_tk" value="3"> Доставка транспортной компанией
+    </label><br>
+     <label class="form-check-label">
+      <input class="form-check-input" type="radio" name="delivery_method" id="delivery_post" value="4"> Доставка Почтой России (стоимость услуг почты 300 р.)
+    </label><br>
+    <label class="form-check-label">
+      <input class="form-check-input" type="radio" name="delivery_method" id="delivery_self" value="1"> Самовывоз
+    </label>
+</div>
+<br>
+<span style="font-weight: bold;">Выберите способ оплаты:</span><br>
+<div class="form-group form-check">
+    <label class="form-check-label payment_backs">
+      <input class="form-check-input self_extract" type="radio" name="pay_method" id="payment_backs" value="2"> Оплата при получении
+    </label><br>
+     <label class="form-check-label payment_cards">
+      <input class="form-check-input self_extract" type="radio" name="pay_method" id="payment_cards" value="1"> Оплата картой онлайн
+    </label><br>
+</div>
+
+<br>
+<div id="adress_block" style="display: none;">
+  <span style="font-weight: bold;"><%= label_tag "Адрес:" %></span>
+  <%= text_field_tag :adr, nil, class: 'adr_pole' %><br>
+</div>
+<br>
+<%= submit_tag "Сделать заказ", class: "btn btn-lg bg-success text-light rounded-0"%>
+<% end %>
+</div>
+
+<script>
+  $('input').on({ change: function() {
+                                            if ( ($(this).attr("id") == "delivery_ekb") || ($(this).attr("id") == "delivery_tk")  || ($(this).attr("id") == "delivery_post") && $(this).prop('checked'))
+                                            { $('#adress_block').show(); }
+
+                                            if ($(this).attr("id") == "delivery_self")
+                                            { $('.adr_pole').val(''); $('#adress_block').hide(); }
+                                            
+                                            if ( ($(this).attr("id") == "delivery_tk")  || ($(this).attr("id") == "delivery_post") && $(this).prop('checked'))
+                                            {
+                                              $('#payment_cards').prop("checked", true);
+                                              $('#payment_backs').prop("checked", false);
+                                              $('.payment_backs').hide();
+                                            }
+                                            if ( ($(this).attr("id") == "delivery_self")  || ($(this).attr("id") == "delivery_ekb") && $(this).prop('checked'))
+                                            {
+                                              $('.payment_backs').show();
+                                            }
+                                    }});
+</script>

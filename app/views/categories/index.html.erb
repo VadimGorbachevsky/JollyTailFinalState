@@ -1,0 +1,107 @@
+<% content_for :head do %>
+  <title>Каталог, Зоомагазин JollyTail</title>
+<% end %>
+
+
+<div class="Catalog" style="width: 100%; display: table;">
+  <div style="display: table-row;">
+
+    <div style="display: table-cell; width: 330px;">
+        <div style="display: table; width: 330px;">
+                
+                <div style="display: table-row;">
+                    <div style="width: 10px; display: table-cell;"> </div>
+                    <div style="width: 300px; display: table-cell;"><%= render partial: "shared/tree", :locals => {cat: 700} %></div>
+                    <div style="width: 20px; display: table-cell;"> </div>
+                </div>
+                
+                <div style="display: table-row; height: 10px;">
+                    <div style="width: 10px; display: table-cell;"> </div>
+                    <div style="width: 300px; display: table-cell;"> </div>
+                    <div style="width: 20px; display: table-cell;"> </div>
+                </div>
+                
+                <div style="display: table-row;">
+                    <div style="width: 10px; display: table-cell;"> </div>
+                    <div class="brand_container" style="display: table-cell; border: 1px solid Purple;">
+
+                            <span style="font-size: 2vw; color: purple;">Бренды:</span><br>
+                             <% @all_flags = [] %>
+                             <% Category.all.each do |current_category| %>
+                                <% if current_category.flags != nil %>
+                                    <% @all_flags += current_category.flags.split(';') %>
+                                <% end %>
+                             <% end %>
+                             <% @all_flags = @all_flags.uniq %>
+                            <% @all_flags.each do |brand| %>
+                                <span style="font-size: 1.8vw; color: blue;"><%= link_to brand, show_all_by_brand_url(:page_number => 1, :brand => brand) %></span><br>
+                            <% end %>
+
+                    </div>
+                    <div style="width: 20px; display: table-cell;"> </div>
+                </div>
+
+        </div>
+    </div>
+
+
+
+<div style="display: table-cell;">
+  <h2 style="color: Blue; margin-bottom: 0px;">ТОП-100</h2>
+  <hr>
+  <div style="display: table">
+
+    <div style="display: table-row">
+        <%= render "shared/to_products_paginate", products: @products %>
+    </div>
+    
+    <div style="display: table-row">
+    <div style="display: table-cell">
+    <hr>
+    </div>
+    </div>
+    
+  </div>
+
+</div>
+</div>
+
+</div>
+
+<div id="scrolling_holder" style="display: none;">
+    <%= link_to "s", adding_url(:page_number => @page_number, :all_products => @all_products, :max_page_number => @max_page_number, :max_products_count => @max_products_count), id: "scrolling", remote: true%>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+        $("#categ_main").css({background: "-webkit-linear-gradient(white 0%, green 100%)",
+                                  background: "-moz-linear-gradient(white 0%, green 100%)",
+                                  background: "-o-linear-gradient(white 0%, green 100%)",
+                                  background: "linear-gradient(white 0%, green 100%)"});
+        if ((screen.width/screen.height) > 1.7) {
+            
+        }
+
+        var paused = false;
+        
+        
+            $(window).scroll(function(){ 
+                if (paused == true)
+                {
+                    window.setTimeout( function(){ paused = false; }, 1000);
+                }
+                if (paused == false)
+                {
+                    if ($(document).scrollTop() + $(window).height() > $('#footer').offset().top && $(document).scrollTop() - $('#footer').offset().top < $('#footer').height())
+                    {
+                        paused = true;
+                        $('#scrolling')[0].click();
+                    }
+                }
+            });
+        
+        
+        
+      });
+</script>

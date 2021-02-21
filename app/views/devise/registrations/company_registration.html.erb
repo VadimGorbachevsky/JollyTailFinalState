@@ -1,0 +1,31 @@
+<h2 style="margin: 15px; font-size: 24px; color: purple;">Регистрация организации</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field" style="margin: 15px;">
+    <%= f.label "Почта:", style: "font-size: 16px;" %><br />
+    <%= f.email_field :email, autocomplete: "email", style: "width: 250px;"  %>
+  </div>
+
+  <div class="field" style="margin: 15px;">
+    <%= f.label "Пароль (минимум 6 знаков):", style: "font-size: 16px;" %><br />
+    <%= f.password_field :password, autocomplete: "new-password", style: "width: 250px;" %>
+  </div>
+
+  <div class="field" style="margin: 15px;">
+    <%= f.label "Подтвердите пароль:", style: "font-size: 16px;" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", style: "width: 250px;"  %>
+  </div>
+  
+  <div class="field" style="display: none; margin: 15px;">
+    <%= f.label "Введите реферальный код, если он у вас есть:", style: "font-size: 16px;" %><br />
+    <%= f.text_field :referal_code, style: "width: 250px;"  %>
+  </div>
+
+  <div class="actions" style="margin: 15px;">
+    <%= f.submit "Зарегистрироваться" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

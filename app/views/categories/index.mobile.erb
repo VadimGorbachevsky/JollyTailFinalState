@@ -1,0 +1,74 @@
+<% content_for :head do %>
+  <title>Каталог, Зоомагазин JollyTail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<% end %>
+
+<% content_for :before_alert do %>
+<div style="width: 100%;">
+<div class="main_brand" style="width: 100%; font-size: 20px;
+    background: -webkit-linear-gradient(#ffffff 0%, #a580a9 100%);
+    background: -moz-linear-gradient(#ffffff 0%, #a580a9 100%);
+    background: -o-linear-gradient(#ffffff 0%, #a580a9 100%);
+    background: linear-gradient(#ffffff 0%, #a580a9 100%);
+">Бренды ></div>
+
+<div class="brand_list" style="display: none; width: 100%; background-color: #fae8fc; font-size: 14px;">
+    <% @all_flags = [] %>
+    <% Category.all.each do |current_category| %>
+        <% if current_category.flags != nil %>
+            <% @all_flags += current_category.flags.split(';') %>
+        <% end %>
+    <% end %>
+    <% @all_flags = @all_flags.uniq %>
+    <% @all_flags.each do |brand| %>
+        <div style="font-size: 4vw;"><%= link_to brand, show_all_by_brand_url(:page_number => 1, :brand => brand) %></div>
+    <% end %>
+</div>
+
+<script>
+    var $main_b = $('.main_brand');
+    $main_b.click(function() {
+        $('.brand_list').slideToggle();
+        if ($(this).text() == "Бренды >") {
+                        $(this).text("Бренды");
+                        }
+                        else {
+                        $(this).text("Бренды >");
+                        }
+        });
+</script>
+</div>
+<% end %>
+
+<%= render "shared/to_products_paginate", products: @products %>
+
+<hr>
+
+<div id="scrolling_holder" style="display: none;">
+    <%= link_to "s", adding_url(:page_number => @page_number, :all_products => @all_products, :max_page_number => @max_page_number, :max_products_count => @max_products_count), id: "scrolling", remote: true%>
+</div>
+
+<script>
+  $(document).ready(function() {
+  
+            var paused = false;
+            
+            $(window).scroll(function(){ 
+                if (paused == true)
+                {
+                    window.setTimeout( function(){ paused = false; }, 1000);
+                }
+                if (paused == false)
+                {
+                    if ($(document).scrollTop() + $(window).height() > $('#footer').offset().top && $(document).scrollTop() - $('#footer').offset().top < $('#footer').height())
+                    {
+                        paused = true;
+                        $('#scrolling')[0].click();
+                    }
+                }
+            });
+        
+      });
+</script>
+
+

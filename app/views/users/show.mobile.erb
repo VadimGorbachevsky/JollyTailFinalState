@@ -1,0 +1,103 @@
+<% if !current_user.email.include? "testernonexistmailer" %>
+    <% if params[:param1] %>
+        <div class="profile_click" style="font-size: 7vw; cursor: pointer;">Профиль</div>
+    <% else %>
+        <div class="profile_click" style="font-size: 7vw; cursor: pointer; background-color: green;">Профиль</div>
+    <% end %>
+<% end %>
+
+<% if params[:param1] %>
+    <div class="cart_click" style="font-size: 7vw; cursor: pointer; background-color: green;">Корзина</div>
+<% else %>
+    <div class="cart_click" style="font-size: 7vw; cursor: pointer;">Корзина</div>
+<% end %>
+
+<% if params[:param1] %>
+    <div class="cart" style="width: 100%;">
+<% else %>
+    <div class="cart" style="display: none; width: 100%;">
+<% end %>
+    <table style="width: 100%; font-size: 3.5vw;">
+          <tr>
+            <th style="width: 5%;">id</th>
+            <th style="width: 50%;">Товар</th>
+            <th style="width: 5%;">Штук</th>
+            <th style="width: 5%;">Цена(р)</th>
+            <th style="width: 5%; color: red;">Удалить</th>
+          </tr>
+
+          <% i=0 %>
+          <% full_price = 0 %>
+
+          <% @cart.positions.each do |e| %>
+            <tr>
+              <th style="width: 5%;"> <%= i = i+1 %> </th>
+              <th style="width: 50%;"> <%= Product.find(e.product_id).name %> </th>
+              <th style="width: 5%;"> <%= e.quantity %> </th>
+              <th style="width: 5%;"> <%= Product.find(e.product_id).action_price ? e.quantity*Product.find(e.product_id).action_price.to_i : e.quantity*Product.find(e.product_id).price.to_i %></th>
+              <% full_price += Product.find(e.product_id).action_price ? e.quantity*Product.find(e.product_id).action_price : e.quantity*Product.find(e.product_id).price %>
+              <th style="width: 5%; color: red;"> <%= link_to "X", position_path(e.id), :method => :delete  %> </th>
+              <br>
+            </tr>
+          <% end %>
+
+          <tr>
+            <th style="width: 5%;"> </th>
+            <th style="width: 50%;"> </th>
+            <th style="width: 5%;">  </th>
+            <th style="width: 5%;"> Итого: <%= full_price.to_i %>р.</th>
+            <th style="width: 5%;"> </th>
+          </tr>
+</table>
+    <%= button_tag link_to "Оформить заказ", order_step_url %><br>
+</div>
+
+
+<% if !current_user.email.include? "testernonexistmailer" %>
+    <% if params[:param1] %>
+        <div class="profile" style="width: 100%; display: none;">
+    <% else %>
+        <div class="profile" style="width: 100%;">
+    <% end %>
+<table>
+    <tr>
+        <th>Имя: <%= @user.name %></th>
+    </tr>
+    <tr>
+        <th>Электронный адрес: <%= @user.email %></th>
+    </tr>
+    <tr>
+        <th>Город: <%= @user.city %></th>
+    </tr>
+    <tr>
+        <th>Телефон: <%= @user.telephone %></th>
+    </tr>
+
+    <tr>
+        <th><%= button_tag link_to "Правка", edit_user_path(@user.id) %></th>
+    </tr>
+</table>
+</div>
+<% end %>
+
+
+<script>
+  $('.profile_click').on({ click: function() {
+                                                $('.order_history').hide();
+                                                $('.order_click').css("background-color", "White");
+                                                $('.cart').hide();
+                                                $('.cart_click').css("background-color", "White");
+                                                $('.profile').show();
+                                                $('.profile_click').css("background-color", "Green");
+                                              }
+                                              });
+  $('.cart_click').on({ click: function() {
+                                                $('.order_history').hide();
+                                                $('.order_click').css("background-color", "White");
+                                                $('.profile').hide();
+                                                $('.profile_click').css("background-color", "White");
+                                                $('.cart').show();
+                                                $('.cart_click').css("background-color", "Green");
+                                              }
+                                              });
+</script>

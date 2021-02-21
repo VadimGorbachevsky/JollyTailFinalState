@@ -1,0 +1,156 @@
+<style>
+.list-group.panel > .list-group-item {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px
+}
+.list-group-submenu {
+    border: 2px solid Green;
+}
+</style>
+
+<div id="Catalog">
+  <div class="list-group panel">
+    <a href="#Dogs" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Catalog"><h5>Собаки</h5></a>
+    <div class="collapse <%= [8,9,7,10,12,13,14,15,40,36,37,38,39,41,43,19,24,71,78,84,83,90].include?(cat.to_i) ? "show" : '' %>" id="Dogs">
+        <a href="#Eat" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Dogs">
+            <h5>Корма</h5>
+        </a>
+        <div class="collapse list-group-submenu  <%= [8,9,7,10].include?(cat.to_i) ? "show" : '' %>" id="Eat">
+            <a href="/categories/8-suhie#start" class="list-group-item <%= (cat.to_i == 8) ? "bg-warning" : '' %>" data-parent="#Eat"><h6>Сухие</h6></a>
+            <a href="/categories/9-vlazhnye#start" class="list-group-item <%= (cat.to_i == 9) ? "bg-warning" : '' %>" data-parent="#Eat"><h6>Влажные</h6></a>
+            <a href="/categories/7-myaso#start" class="list-group-item <%= (cat.to_i == 7) ? "bg-warning" : '' %>" data-parent="#Eat"><h6>Мясо для собак</h6></a>
+            <a href="/categories/10-diety#start" class="list-group-item <%= (cat.to_i == 10) ? "bg-warning" : '' %>" data-parent="#Eat"><h6>Диеты</h6></a>
+        </div>
+        <a href="#Ammo" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Dogs">
+            <h5>Амуниция</h5>
+        </a>
+        <div class="collapse list-group-submenu  <%= [12,13,14,15,40].include?(cat.to_i) ? "show" : '' %>" id="Ammo">
+            <a href="/categories/12-osheyniki#start" class="list-group-item <%= (cat.to_i == 12) ? "bg-warning" : '' %>" data-parent="#Ammo"><h6>Ошейники</h6></a>
+            <a href="/categories/13-povodki#start" class="list-group-item <%= (cat.to_i == 13) ? "bg-warning" : '' %>" data-parent="#Ammo"><h6>Поводки</h6></a>
+            <a href="/categories/14-ruletki#start" class="list-group-item <%= (cat.to_i == 14) ? "bg-warning" : '' %>" data-parent="#Ammo"><h6>Рулетки</h6></a>
+            <a href="/categories/15-namordniki#start" class="list-group-item <%= (cat.to_i == 15) ? "bg-warning" : '' %>" data-parent="#Ammo"><h6>Намордники</h6></a>
+            <a href="/categories/40-shleyki#start" class="list-group-item <%= (cat.to_i == 40) ? "bg-warning" : '' %>" data-parent="#Ammo"><h6>Шлейки</h6></a>
+        </div>
+        <a href="#Games" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Dogs">
+            <h5>Игрушки</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [36,37,38,39].include?(cat.to_i) ? "show" : '' %>" id="Games">
+            <a href="/categories/36-myachiki#start" class="list-group-item <%= (cat.to_i == 36) ? "bg-warning" : '' %>" data-parent="#Games"><h6>Мячики</h6></a>
+            <a href="/categories/37-myagkie#start" class="list-group-item <%= (cat.to_i == 37) ? "bg-warning" : '' %>" data-parent="#Games"><h6>Мягкие</h6></a>
+            <a href="/categories/38-verevochnye#start" class="list-group-item <%= (cat.to_i == 38) ? "bg-warning" : '' %>" data-parent="#Games"><h6>Веревочные</h6></a>
+            <a href="/categories/39-rezina-lateks-kauchuk#start" class="list-group-item <%= (cat.to_i == 39) ? "bg-warning" : '' %>" data-parent="#Games"><h6>Резина, латекс, каучук</h6></a>
+        </div>
+        <a href="#Bowl" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Dogs">
+            <h5>Миски</h5>
+        </a>
+        <div class="collapse list-group-submenu  <%= [41,43].include?(cat.to_i) ? "show" : '' %>" id="Bowl">
+            <a href="/categories/41-metall#start" class="list-group-item <%= (cat.to_i == 41) ? "bg-warning" : '' %>" data-parent="#Bowl"><h6>Металл</h6></a>
+            <a href="/categories/43-plastik#start" class="list-group-item <%= (cat.to_i == 43) ? "bg-warning" : '' %>" data-parent="#Bowl"><h6>Пластик</h6></a>
+        </div>
+        <a href="/categories/19-lakomstva#start" class="list-group-item <%= (cat.to_i == 19) ? "bg-warning" : '' %>"><h6>Лакомства</h6></a>
+        <a href="/categories/24-korrektory-povedeniya#start" class="list-group-item <%= (cat.to_i == 24) ? "bg-warning" : '' %>"><h6>Корректоры поведения</h6></a>
+        <a href="/categories/71-perenoski#start" class="list-group-item <%= (cat.to_i == 71) ? "bg-warning" : '' %>"><h6>Переноски</h6></a>
+        <a href="/categories/78-lezhanki#start" class="list-group-item <%= (cat.to_i == 78) ? "bg-warning" : '' %>"><h6>Лежанки</h6></a>
+        <a href="/categories/84-kletki-voliery#start" class="list-group-item <%= (cat.to_i == 84) ? "bg-warning" : '' %>"><h6>Клетки, вольеры</h6></a>
+        <a href="/categories/83-tualety-dlya-sobak#start" class="list-group-item <%= (cat.to_i == 83) ? "bg-warning" : '' %>"><h6>Туалеты</h6></a>
+        <a href="/categories/90-odezhda-i-obuv#start" class="list-group-item <%= (cat.to_i == 90) ? "bg-warning" : '' %>"><h6>Одежда и обувь</h6></a>
+    </div>
+    <a href="#Cats" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Catalog"><h5>Кошки</h5></a>
+    <div class="collapse <%= [44,45,46,47,48,49,50,86,51,52,80,29,27,30,81,28,34].include?(cat.to_i) ? "show" : '' %>" id="Cats">
+        <a href="#Eat_cats" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Cats">
+            <h5>Корма</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [44,45,46].include?(cat.to_i) ? "show" : '' %>" id="Eat_cats">
+            <a href="/categories/44-suhie#start" class="list-group-item <%= (cat.to_i == 44) ? "bg-warning" : '' %>" data-parent="#Eat_cats"><h6>Сухие</h6></a>
+            <a href="/categories/45-vlazhnye#start" class="list-group-item <%= (cat.to_i == 45) ? "bg-warning" : '' %>" data-parent="#Eat_cats"><h6>Влажные</h6></a>
+            <a href="/categories/46-diety#start" class="list-group-item <%= (cat.to_i == 46) ? "bg-warning" : '' %>" data-parent="#Eat_cats"><h6>Диеты</h6></a>
+        </div>
+        <a href="#Fills" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Cats">
+            <h5>Наполнители </h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [47,48,49,50,86].include?(cat.to_i) ? "show" : '' %>" id="Fills">
+            <a href="/categories/47-drevesnye#start" class="list-group-item <%= (cat.to_i == 47) ? "bg-warning" : '' %>" data-parent="#Fills"><h6>Древесные</h6></a>
+            <a href="/categories/48-silikagelevye#start" class="list-group-item <%= (cat.to_i == 48) ? "bg-warning" : '' %>" data-parent="#Fills"><h6>Силикагелевые</h6></a>
+            <a href="/categories/49-komkuyuschiesya#start" class="list-group-item <%= (cat.to_i == 49) ? "bg-warning" : '' %>" data-parent="#Fills"><h6>Комкующиеся</h6></a>
+            <a href="/categories/50-mineralnye-vpityvayuschie#start" class="list-group-item <%= (cat.to_i == 50) ? "bg-warning" : '' %>" data-parent="#Fills"><h6>Минеральные впитывающие</h6></a>
+            <a href="/categories/86-drevesnye-komkuyuschiesya#start" class="list-group-item <%= (cat.to_i == 86) ? "bg-warning" : '' %>" data-parent="#Fills"><h6>Древесные комкующиеся</h6></a>
+        </div>
+        <a href="#Bowl_cat" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Cats">
+            <h5>Миски</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [51,52].include?(cat.to_i) ? "show" : '' %>" id="Bowl_cat">
+            <a href="/categories/51-plastik#start" class="list-group-item <%= (cat.to_i == 51) ? "bg-warning" : '' %>" data-parent="#Bowl_cat"><h6>Пластик</h6></a>
+            <a href="/categories/52-keramika#start" class="list-group-item <%= (cat.to_i == 52) ? "bg-warning" : '' %>" data-parent="#Bowl_cat"><h6>Керамика</h6></a>
+        </div>
+        <a href="/categories/80-domiki-kogtetochki#start" class="list-group-item <%= (cat.to_i == 80) ? "bg-warning" : '' %>"><h6>Домики, когтеточки</h6></a>
+        <a href="/categories/29-igrushki#start" class="list-group-item <%= (cat.to_i == 29) ? "bg-warning" : '' %>"><h6>Игрушки</h6></a>
+        <a href="/categories/27-lotki#start" class="list-group-item <%= (cat.to_i == 27) ? "bg-warning" : '' %>"><h6>Лотки</h6></a>
+        <a href="/categories/30-lakomstva#start" class="list-group-item <%= (cat.to_i == 30) ? "bg-warning" : '' %>"><h6>Лакомства</h6></a>
+        <a href="/categories/81-lezhanki-dlya-koshek#start" class="list-group-item <%= (cat.to_i == 81) ? "bg-warning" : '' %>"><h6>Лежанки</h6></a>
+        <a href="/categories/28-ammunitsiya#start" class="list-group-item <%= (cat.to_i == 28) ? "bg-warning" : '' %>"><h6>Амуниция</h6></a>
+        <a href="/categories/34-korrektory-povedeniya#start" class="list-group-item <%= (cat.to_i == 34) ? "bg-warning" : '' %>"><h6>Корректоры поведения</h6></a>
+    </div>
+    
+    <a href="#Gruming" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Catalog">
+        <h5>Груминг</h5>
+    </a>
+    <div class="collapse <%= [62,61,64,66,65].include?(cat.to_i) ? "show" : '' %>" id="Gruming">
+        <a href="#Shampoo" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Gruming">
+            <h5>Шампуни</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [62,61,64].include?(cat.to_i) ? "show" : '' %>" id="Shampoo">
+            <a href="/categories/62-shampuni-dlya-koshek#start" class="list-group-item <%= (cat.to_i == 62) ? "bg-warning" : '' %>" data-parent="#Shampoo"><h6>Для кошек</h6></a>
+            <a href="/categories/61-shampuni-dlya-sobak#start" class="list-group-item <%= (cat.to_i == 61) ? "bg-warning" : '' %>" data-parent="#Shampoo"><h6>Для собак</h6></a>
+            <a href="/categories/64-shampuni-obschie#start" class="list-group-item <%= (cat.to_i == 64) ? "bg-warning" : '' %>" data-parent="#Shampoo"><h6>Общие</h6></a>
+        </div>
+        <a href="#Tools" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Gruming">
+            <h5>Инструменты</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [66,65].include?(cat.to_i) ? "show" : '' %>" id="Tools">
+            <a href="/categories/66-kogterezy#start" class="list-group-item <%= (cat.to_i == 66) ? "bg-warning" : '' %>" data-parent="#Tools"><h6>Когтерезы</h6></a>
+            <a href="/categories/65-schetki-rascheski-puhoderki#start" class="list-group-item <%= (cat.to_i == 65) ? "bg-warning" : '' %>" data-parent="#Tools"><h6>Щетки, расчески, пуходерки</h6></a>
+            <a style="display: none;" href="#" class="list-group-item#start" data-parent="#Tools"><h6>Наклейки для когтей</h6></a>
+        </div>
+    </div>
+    <a href="#Vitamin" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Vitamin"><h5>Витамины</h5></a>
+    <div class="collapse <%= [82,70,87].include?(cat.to_i) ? "show" : '' %>" id="Vitamin">
+        <a href="/categories/82-vitaminy-dlya-koshek#start" class="list-group-item <%= (cat.to_i == 82) ? "bg-warning" : '' %>" data-parent="#Vitamin"><h6>Для кошек</h6></a>
+        <a href="/categories/70-vitaminy-dlya-sobak#start" class="list-group-item <%= (cat.to_i == 70) ? "bg-warning" : '' %>" data-parent="#Vitamin"><h6>Для собак</h6></a>
+        <a href="/categories/87-vitaminy-obschie#start" class="list-group-item <%= (cat.to_i == 87) ? "bg-warning" : '' %>" data-parent="#Vitamin"><h6>Общие</h6></a>
+    </div>
+    <a href="#Unknown" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Unknown"><h5>Пеленки, подгузники, уборка</h5></a>
+    <div class="collapse <%= [77,69,79].include?(cat.to_i) ? "show" : '' %>" id="Unknown">
+        <a href="/categories/77-pelenki-i-podguzniki#start" class="list-group-item <%= (cat.to_i == 77) ? "bg-warning" : '' %>" data-parent="#Unknown"><h6>Пеленки и подгузники</h6></a>
+        <a href="/categories/69-pakety-dlya-uborki#start" class="list-group-item <%= (cat.to_i == 69) ? "bg-warning" : '' %>" data-parent="#Unknown"><h6>Пакеты для уборки</h6></a>
+        <a href="/categories/79-unichtozhiteli-zapahov#start" class="list-group-item <%= (cat.to_i == 79) ? "bg-warning" : '' %>" data-parent="#Unknown"><h6>Уничтожители запахов, дезинфицирующие средства</h6></a>
+    </div>
+    <a href="#Clean_prof" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Clean_prof"><h5>Гигиена и профилактика</h5></a>
+    <div class="collapse <%= [67,68,89,63].include?(cat.to_i) ? "show" : '' %>" id="Clean_prof">
+        <a href="/categories/67-sredstva-dlya-glaz-i-ushey#start" class="list-group-item <%= (cat.to_i == 67) ? "bg-warning" : '' %>" data-parent="#Clean_prof"><h6>Средства для глаз и ушей</h6></a>
+        <a href="/categories/68-sredstva-dlya-polosti-rta#start" class="list-group-item <%= (cat.to_i == 68) ? "bg-warning" : '' %>" data-parent="#Clean_prof"><h6>Средства для полости рта</h6></a>
+        <a href="/categories/89-vorotniki-popony-binty#start" class="list-group-item <%= (cat.to_i == 89) ? "bg-warning" : '' %>" data-parent="#Clean_prof"><h6>Воротники, попоны, бинты</h6></a>
+        <a href="/categories/63-shampuni-antiparazitarnye#start" class="list-group-item <%= (cat.to_i == 63) ? "bg-warning" : '' %>" data-parent="#Clean_prof"><h6>Антипаразитарные шампуни, капли, ошейники</h6></a>
+    </div>
+    
+    <a href="#Other_ani" class="list-group-item bg-purple" data-toggle="collapse" data-parent="#Catalog"><h5>Другие животные</h5></a>
+    <div class="collapse <%= [75,73,74,72,85,76,88].include?(cat.to_i) ? "show" : '' %>" id="Other_ani">
+        <a href="#Parrots" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Other_ani">
+            <h5>Птицы и грызуны</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [75,73,74,72,85].include?(cat.to_i) ? "show" : '' %>" id="Parrots">
+            <a href="/categories/75-korma-dlya-ptits#start" class="list-group-item <%= (cat.to_i == 75) ? "bg-warning" : '' %>" data-parent="#Parrots"><h6>Корма для птиц</h6></a>
+            <a href="/categories/73-korma-dlya-gryzunov#start" class="list-group-item <%= (cat.to_i == 73) ? "bg-warning" : '' %>" data-parent="#Parrots"><h6>Корма для грызунов</h6></a>
+            <a href="/categories/74-lakomstva-dlya-ptits#start" class="list-group-item <%= (cat.to_i == 74) ? "bg-warning" : '' %>" data-parent="#Parrots"><h6>Лакомства для птиц</h6></a>
+            <a href="/categories/72-lakomstva-dlya-gryzunov#start" class="list-group-item <%= (cat.to_i == 72) ? "bg-warning" : '' %>" data-parent="#Parrots"><h6>Лакомства для грызунов</h6></a>
+            <a href="/categories/85-napolniteli-dlya-gryzunov#start" class="list-group-item <%= (cat.to_i == 85) ? "bg-warning" : '' %>" data-parent="#Parrots"><h6>Наполнители для грызунов</h6></a>
+        </div>
+        <a href="#Fish" class="list-group-item bg-success" data-toggle="collapse" data-parent="#Other_ani">
+            <h5>Рыбы и черепахи</h5>
+        </a>
+        <div class="collapse list-group-submenu <%= [76,88].include?(cat.to_i) ? "show" : '' %>" id="Fish">
+            <a href="/categories/76-korma-dlya-ryb#start" class="list-group-item <%= (cat.to_i == 76) ? "bg-warning" : '' %>" data-parent="#Fish"><h6>Корма для рыб и черепах</h6></a>
+            <a href="/categories/88-grunty#start" class="list-group-item <%= (cat.to_i == 88) ? "bg-warning" : '' %>" data-parent="#Fish"><h6>Грунты</h6></a>
+        </div>
+    </div>
+  </div>
+</div>

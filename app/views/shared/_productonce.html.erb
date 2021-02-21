@@ -1,0 +1,241 @@
+<div class="product_onse_placer", style="margin-bottom: 3px; text-align: center; display: inline-block; width: 290px; vertical-align: top; box-shadow: 0 0 4px #f0ad4e;; align-content: center;">
+    
+    <% if e.main %>
+        <% @all_fas = e.follows.split(';') %>
+        <% @all_fas.each do |current_product_id| %>
+            <% @product = Product.find(current_product_id) %>
+            <div class="speed_order" id="<%= @product.id %>" style="box-shadow: 0 0 3px purple; position: absolute; background: white; width: 290px; height: 490px; z-index: 7; text-align: center; display: none;">
+                <div class="speed_order_close" id="<%= @product.id %>" style="cursor: pointer; position: absolute; right: 4px; color: purple; font-size: 24px;">
+                X
+                </div>
+                <br>
+                <div style="font-size: 24px;">
+                    Заказ в один клик
+                </div>
+                <div style="font-size: 20px; margin-top: 15px;">
+                    Просто укажите телефон и мы сами перезвоним вам для оформления
+                </div>
+                <div style="font-size: 20px; color: green; margin-top: 15px;">
+                    <%= e.name %> <%= @product.currentfas%>
+                </div>
+                <%= form_for Speed_order.new, remote: true do |f| %>
+                    <div style="font-size: 20px; margin-top: 60px;">
+                        Телефон:
+                    </div>
+                    <%= f.hidden_field :product_id, :value =>  @product.id %>
+                    <%= f.text_field :phone, style: "width: 200px; font-size: 24px;" %><br><br>
+                    <%= f.submit "Перезвоните мне!", class: "btn btn-success speed_order_confirm", style: "font-size: 24px;" %>
+                <% end %>
+            </div>
+        <% end %>
+    <% else %>
+        <div class="speed_order" id="<%= e.id %>" style="box-shadow: 0 0 3px purple; position: absolute; background: white; width: 290px; height: 490px; z-index: 7; text-align: center; display: none;">
+            <div class="speed_order_close" id="<%= e.id %>" style="cursor: pointer; position: absolute; right: 4px; color: purple; font-size: 24px;">
+            X
+            </div>
+            <br>
+            <div style="font-size: 24px;">
+                Заказ в один клик
+            </div>
+            <div style="font-size: 20px; margin-top: 15px;">
+                Просто укажите телефон и мы сами перезвоним вам для оформления
+            </div>
+            <div style="font-size: 20px; color: green; margin-top: 15px;">
+                <%= e.name %>
+            </div>
+            <%= form_for Speed_order.new, remote: true do |f| %>
+                <div style="font-size: 20px; margin-top: 60px;">
+                    Телефон:
+                </div>
+                <%= f.hidden_field :product_id, :value =>  e.id %>
+                <%= f.text_field :phone, style: "width: 200px; font-size: 24px;" %><br><br>
+                <%= f.submit "Перезвоните мне!", class: "btn btn-success speed_order_confirm", style: "font-size: 24px;" %>
+            <% end %>
+        </div>  
+    <% end %>
+    
+    
+  
+  
+  <div class="main_block <%=e.id%>" style="height: 300px;">
+    <% if e.images.attached? %>
+            <%= link_to image_tag(("https://jollytail.ru/image_sender?id=" + e.id.to_s), size: "200x200", title: e.name, alt: e.name, lazy: true), product_path(e), {:style=>'text-align: center;'} %>
+    <% else %>
+        <%= link_to image_tag("default_foto.jpg", size: "200x200"), product_path(e), {:style=>'text-align: center;'} %>
+    <% end %>
+    <% if ( (e.brand) && (e.brand != "")) %>
+        <div class="br-link" style="text-align: center; margin-top: 5px; margin-bottom: 0px; font-size: 16px; color: Green; text-decoration: underline;">
+            <%= link_to e.brand, category_path(e.category, :brand => e.brand), {:style=>'text-align: center; font-weight: bold;'} %>
+        </div>
+    <% else %>
+        <div style="text-align: center; margin-top: 5px; margin-bottom: 0px; color: Green; font-size: 16px;">
+            <span style="text-align: center; color: Green; font-weight: bold;"> - </span>
+        </div>
+    <% end %>
+    <div style="text-align: center; height: 60px; margin-top: 5px; margin-bottom: 0px; color: Black; font-size: 16px;">
+        <%= link_to e.name, product_path(e), {:style=>'text-align: center; font-weight: bold;', :itemprop=>'itemListElement'} %>
+    </div>
+  </div>
+  
+  <div class="not_main_block" style="overflow-y: scroll; height: 220px;">
+    <% if e.main %>
+        <table class="table table-sm">
+        <tbody>
+            <% @all_fas = e.follows.split(';') %>
+            <% @all_fas.each do |current_product_id| %>
+                <% @product = Product.find(current_product_id) %>
+                <tr>
+                    <th style="vertical-align: middle;">
+                        <span class="fas" style="font-size: 12px;"><%= @product.currentfas %></span><br>
+                        <% @accia = Accia.find(@product.accia_id) %>
+                        <% @starttime = @accia.starttime %>
+                        <% @time = Time.now(); %>
+                        <% @endtime = @accia.endtime %>
+                        <% if (@time > @starttime) && (@time < @endtime) %>
+                            <span class="price" style="font-size: 12px; color: Red;"><%= @product.action_price.to_i %> p.</span>
+                        <% else %>
+                            <span class="price" style="font-size: 12px; color: Purple;"><%= @product.price.to_i %> p.</span>
+                        <% end %>    
+                    </th>
+                    <% if @product.productcount.count >0 %>
+                        <% if user_signed_in? %>
+                            <th style="vertical-align: middle;">
+                                <span class="badge badge-success minus <%=@product.id%>" style="cursor: pointer; font-size: 14px;">-</span>
+                                <span class="product_count_placer_view text-success <%=@product.id%>" style="font-size: 18px; color: Green;">1</span>
+                                <span class="product_count_placer <%=@product.id%>" style="font-size: 18px; color: Green;"></span>
+                                <span class="badge badge-success plus <%=@product.id%>" style="cursor: pointer; font-size: 14px;">+</span>
+                            </th>
+                            <% @contan = false %>
+                            <% current_user.cart.positions.each do |pos| %>
+                                <% pos.product.id == @product.id ? @contan = true : ''%>
+                            <% end %>
+                            <% if @contan == false %>
+                                <th style="vertical-align: middle;">
+                                    <div class="btn-group-vertical">
+                                        <%= form_for Position.new, remote: true do |f| %>
+                                            <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s) %>
+                                            <%= f.hidden_field :prod_id, :value => @product.id%>
+                                            <%= f.submit "Купить", class: "notread btn btn-success btn-primary", style: "font-size: 14px;"%>
+                                        <% end %>
+                                        <button type="button" name="button" id="<%= @product.id %>" class="btn bg-purple btn-primary speed_order_open" style="font-size: 10px;">Заказ в 1 клик</button>
+                                    </div>
+                                </th>
+                            <% else %>
+                                <th>
+                                    <div class="btn-group-vertical btn-group-sm">
+                                    <%= form_for Position.new, remote: true do |f| %>
+                                        <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s) %>
+                                        <%= f.hidden_field :prod_id, :value => @product.id%>
+                                        <%= f.submit "В корзине", class: "alread btn btn-success rounded-0 btn-sm", style: "background: Purple !important; font-size: 14px;", disabled: true %>
+                                    <% end %>
+                                    <button type="button" name="button" id="<%= @product.id %>" class="btn bg-purple btn-sm  btn-primary speed_order_open" style="font-size: 10px;">Заказ в 1 клик</button>
+                                    </div>
+                                </th>
+                            <% end %>
+                        <% else %>
+                            <th style="vertical-align: middle;">
+                                <span class="badge badge-success minus <%=@product.id%>" style="cursor: pointer; font-size: 14px;">-</span>
+                                <span class="product_count_placer_view text-success <%=@product.id%>" style="font-size: 18px; color: Green;">1</span>
+                                <span class="product_count_placer <%=@product.id%>" style="font-size: 18px; color: Green;"></span>
+                                <span class="badge badge-success plus <%=@product.id%>" style="cursor: pointer; font-size: 14px;">+</span>
+                            </th>
+                            <th style="vertical-align: middle;">
+                                <div class="btn-group-vertical btn-group-sm">
+                                    <%= form_for User.new, :url => url_for(:controller => 'users', :action => 'first_guest_taken') do |f| %>
+                                        <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + @product.id.to_s) %>
+                                        <%= f.hidden_field :prod_id, :value => @product.id%>
+                                        <%= f.submit "Купить", class: "btn btn-success btn-primary btn-sm", style: "font-size: 14px;"%>
+                                    <% end %>
+                                    <button type="button" name="button" id="<%= @product.id %>" class="btn bg-purple btn-sm btn-primary speed_order_open" style="font-size: 14px;">Заказ в 1 клик</button>
+                                </div>
+                            </th>
+                        <% end %>
+                    <% else %>
+                        <th style="font-size: 14px; text-align: center; color: Blue; vertical-align: middle;">Нет в наличии</th>
+                        <th style="vertical-align: middle;"><%= button_tag link_to("Заказать", kvitok_url(:pr_id => @product.id)), class: "btn btn-success btn-sm" %></th>
+                    <% end %>
+            <% end %>  
+        </tbody>
+        </table>
+  <% else %>
+      <table class="table table-sm" style="height: 204px;">
+      <tbody>
+      <% @accia = Accia.find(e.accia_id) %>
+      <% @starttime = @accia.starttime %>
+      <% @time = Time.now(); %>
+      <% @endtime = @accia.endtime %>
+      <% if (@time > @starttime) && (@time < @endtime) %>
+        <th style="vertical-align: middle;"><span class="price" style="font-size: 12px; color: Red;">Акция: <%= e.action_price.to_i %> p.</span></th>
+      <% else %>
+        <th style="vertical-align: middle;"><span class="price" style="font-size: 12px; color: Purple;"><%= e.price.to_i %> p.</span></th>
+      <% end %>
+      <% if e.productcount.count >0 %>
+        <% if user_signed_in? %>
+          <span style="font-size: 18px; color: Green;">
+          
+            <th style="vertical-align: middle;">
+                <span class="badge badge-success minus <%=e.id%>" style="cursor: pointer; font-size: 14px;">-</span>
+                <span class="product_count_placer_view text-success <%=e.id%>" style="font-size: 18px; color: Green;">1</span>
+                <span class="product_count_placer <%=e.id%>" style="font-size: 18px; color: Green;"></span>
+                <span class="badge badge-success plus <%=e.id%>" style="cursor: pointer; font-size: 14px;">+</span>
+            </th>
+            
+            <% @contan = false %>
+            <% current_user.cart.positions.each do |pos| %>
+              <% pos.product.id == e.id ? @contan = true : ''%>
+            <% end %>
+            <th style="vertical-align: middle;">
+            <% if @contan == false %>
+            <div class="btn-group-vertical btn-group-sm">
+                <%= form_for Position.new, remote: true do |f| %>
+                <%= f.hidden_field :prod_id, :value => e.id%>
+                <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + e.id.to_s) %>
+                <%= f.submit "Купить", class: "notread btn btn-success btn-primary btn-sm" %>
+                <% end %>
+                <button type="button" name="button" id="<%= e.id %>" class="btn bg-purple btn-sm  btn-primary speed_order_open">Заказ в 1 клик</button>
+            </div>
+            <% else %>
+                <div class="btn-group-vertical btn-group-sm">
+                    <%= form_for Position.new, remote: true do |f| %>
+                    <%= f.hidden_field :prod_id, :value => e.id%>
+                    <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + e.id.to_s) %>
+                    <%= f.submit "В корзине", class: "alread btn btn-success rounded-0 btn-sm", style: "background: Purple !important;", disabled: true %>
+                    <% end %>
+                    <button type="button" name="button" id="<%= e.id %>" class="btn bg-purple btn-sm  btn-primary speed_order_open">Заказ в 1 клик</button>
+                </div>
+            <% end %>
+            </th>        
+          
+          </span>
+        <% else %>
+            <span style="font-size: 18px; color: Green;">
+            
+              <th style="vertical-align: middle;">
+                    <span class="badge badge-success minus <%=e.id%>" style="cursor: pointer; font-size: 14px;">-</span>
+                    <span class="product_count_placer_view text-success <%=e.id%>" style="font-size: 18px; color: Green;">1</span>
+                    <span class="product_count_placer <%=e.id%>" style="font-size: 18px; color: Green;"></span>
+                    <span class="badge badge-success plus <%=e.id%>" style="cursor: pointer; font-size: 14px;">+</span>
+              </th>
+              
+              <th style="vertical-align: middle;">
+              <div class="btn-group-vertical btn-group-sm">
+                <%= form_for User.new, :url => url_for(:controller => 'users', :action => 'first_guest_taken') do |f| %>
+                <%= f.hidden_field :quantity, type: "number", value: 1, min: 0, :style => "width: 60px; display: none;", :class => ("counter " + e.id.to_s) %>
+                <%= f.hidden_field :prod_id, :value => e.id%>
+                <%= f.submit "Купить", class: "btn btn-success btn-primary btn-sm"%>
+                <% end %>
+                <button type="button" name="button" id="<%= e.id %>" class="btn bg-purple btn-sm btn-primary speed_order_open">Заказ в 1 клик</button>
+              </div>
+              </th>
+            
+            </span>
+        <% end %>
+      <% else %>
+        <th style="vertical-align: middle;"><div style="font-size: 16px; text-align: center; height: 36px; color: Blue;"> Нет в наличии </div></th>
+        <th style="vertical-align: middle;"><%= button_tag link_to("Заказать", kvitok_url(:pr_id => e.id)), class: "btn btn-success btn-sm" %></th>
+      <% end %>
+      </tbody>
+      </table>
+  <% end %>
+  </div>
+</div>

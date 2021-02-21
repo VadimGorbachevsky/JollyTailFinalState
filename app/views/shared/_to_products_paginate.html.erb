@@ -1,0 +1,18 @@
+<% @agent = request.user_agent %>
+<% @mobile = ((@agent =~ /Mobile/) != nil) ? true : false %>
+        
+<% if @mobile %>
+<div class="product_list_holder">
+<% products.each do |prod| %>
+            <%= render "shared/productonce", e: prod %>
+<% end %>
+<div style="display: table-cell" class="scrolled">
+</div>
+<% else %>
+<div class="product_list_holder">
+<% products.each do |prod| %>
+            <%= render "shared/productonce", e: prod %>
+<% end %>
+<div style="display: table-cell" class="scrolled">
+</div>
+<% end %>

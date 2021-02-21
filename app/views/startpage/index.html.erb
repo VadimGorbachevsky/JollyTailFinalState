@@ -1,0 +1,165 @@
+<% content_for :head do %>
+  <meta property="og:title" content="Зоомагазин JollyTail в Екатеринбурге, доставка курьером, ТК, Почтой России"/>
+  <meta property="og:description" content="Зоомагазин JollyTail в Екатеринбурге, доставка курьером, ТК, Почтой России"/>
+  <meta property="og:image" content="https://jollytail.ru/assets/sq_logo-a9833f5f5aa36588b662698425cc597149affbda6cb6f6b9b3338c97afbdcc5d.png"/>
+  <title>Зоомагазин JollyTail в Екатеринбурге, доставка курьером, ТК, Почтой России</title>
+  <meta name="title" content="Зоомагазин JollyTail в Екатеринбурге, доставка курьером, ТК, Почтой России"/>
+  <meta name="description" content="У нас вы найдете большой выбор товаров для животных премиум-сегмента, профессиональный персонал и индивидуальный подход. Приятные цены, гарантия возврата, удобное расположение неподалеку от ТЦ Парк-Хаус, доставка удобным вам способом."/>
+  <meta name="keywords" content="Зоомагазин, Екатеринбург, для собак, для кошек, доставка" />
+<% end %>
+
+<style>
+  .place_link:hover{
+    opacity: 0.8;  
+  }
+  .under_place_link{
+    background: purple;
+    position: absolute;
+    display: block;
+    z-index: 2; 
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    width: 225px;
+    height: 150px;
+    margin: 0px;
+    padding: 0px;
+  }
+  .dot {
+            background-color: #eee;
+            border: 1px solid #666;
+            border-radius: 10px;
+            box-shadow: inset 1px 1px 1px #888;
+            display: inline-block;
+            height: 20px;
+            width: 20px;
+        }
+    .dot.active {
+        background-color: #DD80CC;
+        box-shadow: inset 0.5px 0.5px 2.5px 2.5px white;
+    }
+    .carousel-indicators {
+        text-align: right;
+        float: right;
+        right: 2% !important;
+        left: inherit;
+    }
+</style>
+<div class="container-fluid">
+<div class="row">
+<div class="col-md-6">
+    <div id="demo" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            <span class="dot" data-target="#demo" data-slide-to="0" class=""></span>
+            <span class="dot" data-target="#demo" data-slide-to="1" class=""></span>
+            <span class="dot" data-target="#demo" data-slide-to="2" class="active"></span>
+        </ul>
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            <div class="carousel-item">
+                <%= image_tag("funny_girl.jpg", class: "img-fluid") %>
+            </div>
+            <div class="carousel-item">
+                <%= image_tag("black_cat.jpg", class: "img-fluid") %>
+            </div>
+            <div class="carousel-item active">
+                <%= image_tag("funny_dog.jpg", class: "img-fluid") %>
+            </div>
+        </div>
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    <div class="container-fluid" style="margin-top: 5px; margin-bottom: 5px;">        
+        <div class="row">
+            <div class="col-6">
+                <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("voice.jpg", class: "img-fluid"), reviews_path%>
+                    <h5 class="text-success text-center font-weight-bold">Отзывы</h5>
+                </div>
+                
+            </div>
+            <div class="col-6">
+                <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("contact.jpg", class: "img-fluid"), credits_path%>
+                    <h5 class="text-success text-center font-weight-bold">Контакты</h5>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid d-none d-md-block">
+    <div id="acc" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            <% flag = true %>
+            <% @accias.each_with_index do |current_accia, ind| %>
+                <% if current_accia.id != 1 %>
+                    <% if flag %>
+                        <span class="dot" data-target="#acc" data-slide-to="<%= ind %>" class="active"></span>
+                        <% flag = false%>
+                    <% else %>
+                        <span class="dot" data-target="#acc" data-slide-to="<%= ind %>" class=""></span>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </ul>
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            <% flag = true %>
+            <% @accias.each_with_index do |current_accia, ind| %>
+                <% if current_accia.id != 1 %>
+                    <% if flag %>
+                        <div class="carousel-item active">
+                            <%= link_to(image_tag(current_accia.image, size: "675x300"), accia_path(current_accia)) %>
+                        </div>
+                        <% flag = false %>
+                    <% else %>
+                        <div class="carousel-item">
+                            <%= link_to(image_tag(current_accia.image, size: "675x300"), accia_path(current_accia)) %>
+                        </div>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </div>
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#acc" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#acc" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <h2 style="color: green;">Привет, мы команда интернет-зоомагазина Jolly Tail</h2>    <p>Наша миссия – помочь вашему питомцу прожить долгую, здоровую и комфортную жизнь, а вам – получать от общения с ним только положительные эмоции.</p>
+	<p>Для этого мы предоставляем только качественные и проверенные временем корма, надежную амуницию, безопасные игрушки, лакомства и другие товары для кошек и собак. Также в нашем зоомагазине можно найти средства гигиены и немного полезного для рыб, птиц и грызунов. Нашими поставщиками являются только официальные дистрибьюторы, и мы внимательно следим за сроками годности.</p>
+	<p>Мы считаем, что каждый питомец уникален, поэтому всегда готовы выслушать вас, проконсультировать и посоветовать то, что подойдет именно вам. Например, в нашем зоомагазине можно заказать пошив обуви и одежды для животных по вашим меркам.</p>
+	<p>Мы доставляем товары по Екатеринбургу в день заказа, и по всей стране Почтой или ТК.</p>
+	<p>Наши цены одинаковы на сайте и в торговом зале. Если вы предпочитаете сперва пощупать то, что приобретаете, вы всегда можете сделать это у нас в зоомагазине.</p>
+	<p>Нажмите на любую из категорий справа чтобы начать.</p>
+</div>
+<div class="col-md-2 order-first order-md-last">
+    <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("dogplace.jpg", class: "img-fluid"), category_path(Category.find(1)), style: "font-size: 24px;"%>
+        <h5 class="text-success text-center font-weight-bold">Собаки</h5>
+    </div>
+    <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("catplace.jpg", class: "img-fluid"), category_path(Category.find(2)), style: "font-size: 24px;"%>
+        <h5 class="text-success text-center font-weight-bold">Кошки</h5>
+    </div>
+    <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("show_place.jpg", class: "img-fluid"), category_path(Category.find(3)), style: "font-size: 24px;"%>
+        <h5 class="text-success text-center font-weight-bold">Гигиена и витамины</h5>
+    </div>
+    <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("par_bu_place.jpg", class: "img-fluid"), category_path(Category.find(4)), style: "font-size: 24px;"%>
+        <h5 class="text-success text-center font-weight-bold">Птицы и грызуны</h5>
+    </div>
+    <div style="box-shadow: 0 0 4px #f0ad4e;"><%= link_to image_tag("tort_fish_place.jpg", class: "img-fluid"), category_path(Category.find(5)), style: "font-size: 24px;"%>
+        <h5 class="text-success text-center font-weight-bold">Рыбы и Черепахи</h5>
+    </div>
+</div>
+</div>
+</div>

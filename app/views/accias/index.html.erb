@@ -1,0 +1,19 @@
+<h1 style="color: Blue; margin-left: 10px;">Акции</h1>
+<div class="container-fluid">
+    <div class="row">
+        <% @accias.each do |current_accia| %>
+            <div class="col-md-4">
+                <%= link_to image_tag(current_accia.image, size: "440x200", style: "border: 1px solid purple", onMouseover: "this.style='border: 2px solid blue';", onMouseout: "this.style='border: 1px solid purple';"), (accia_url(current_accia)+"#start") %>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+        $("#acti_main").css({background: "-webkit-linear-gradient(white 0%, green 100%)",
+                                  background: "-moz-linear-gradient(white 0%, green 100%)",
+                                  background: "-o-linear-gradient(white 0%, green 100%)",
+                                  background: "linear-gradient(white 0%, green 100%)"});
+      });
+</script>

@@ -1,0 +1,11 @@
+<% @accias.each do |current_accia| %>
+    <div style="margin: 10%">
+    <%= link_to image_tag(current_accia.image, style: "width: 70vw; heght: 35vw; border: 1px solid purple"), accia_url(current_accia) %>
+    </div>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+        $("#acti_main").css("background-color", "Green");
+      });
+</script>

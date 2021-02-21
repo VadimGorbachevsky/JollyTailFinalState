@@ -1,0 +1,2 @@
+class AccionIterator < ApplicationRecord
+end
